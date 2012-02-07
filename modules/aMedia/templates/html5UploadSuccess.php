@@ -1,7 +1,9 @@
 <h1>Drag and Drop Upload!  -- REMIX</h1>
 
-<form>
-    <input id="fileupload" type="file" name="aFile[]" multiple>
+<form enctype="multipart/form-data" method="POST" action="/admin/media/html5Upload">
+    <?php /*<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo ini_get('upload_max_filesize') ?>" /> */ ?>
+    <input id="fileupload" type="file" name="aFile[]" multiple />
+    <input type="submit" />
 </form>
 
 
@@ -18,9 +20,9 @@
 $(document).ready(function(e) {
     $('#fileupload').aFileUploader({
         'dragenter': function () { console.log("dragenter"); },
-        'dragleave': function () { console.log("dragleave"); },
-        'invalidFile': function (file) { console.log(file.name + " is invalid."); },
-        'ajaxTransferSuccess': function(data) { console.log(data); }
+        'dragleave': function () { console.log("dragleave"); }
+        //'invalidFile': function (file) { console.log(file.name + " is invalid."); },
+        //'ajaxTransferSuccess': function(data) { console.log(data); }
     });
 });
 

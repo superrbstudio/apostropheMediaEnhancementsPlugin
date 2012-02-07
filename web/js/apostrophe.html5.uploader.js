@@ -13,6 +13,7 @@
         var defaults = $.extend({
             "name": "aFile",
             "url": "/admin/media/html5Upload",
+            "maxAjaxUploads": 1,
 
             // Drag handlers
             "dragstart": null,
@@ -55,6 +56,7 @@
             if ($input.is('[type="file"]')) {
                 $input.bind("change", function () {
                     handleFiles(this.files);
+                    //$input.closest('form').submit();
                 });
             } else {
                 $input.bind("drop.aUploader", function(event) {
@@ -69,12 +71,14 @@
 
             function handleFiles(files)
             {
+                var requests = [];
+                
                 for (var i = 0; i < files.length; i++) {
 
                     var file = files[i];
 
                     if (file.size > 0) {
-                        upload(file);
+                        requests.push(upload(file));
                     }
                     else
                     {
@@ -84,6 +88,19 @@
                         }
                     }
 
+                }
+
+                function executeNextRequest() {
+                    var req = requests.shift();
+
+                    if (typeof(req) == 'function') {
+                        $.when(req()).then(function(){ executeNextRequest();});
+                    }
+                }
+
+                for (var i = 0; i < defaults.maxAjaxUploads; i++)
+                {
+                    executeNextRequest();
                 }
             }
 
@@ -118,6 +135,10 @@
             // This will work on Firefox and Chrome
             function upload(file)
             {
+                // deferred object will allow us to chain events based on resolution of ajax
+                var deferred = $.Deferred();
+                var aSendFunction;
+
                 // xmlHttpRequest is the easiest way to deal with posting data
                 var xmlHttpRequest = new XMLHttpRequest();
                 xmlHttpRequest.open("POST", defaults.url, true);
@@ -132,6 +153,7 @@
                                 defaults.ajaxTransferSuccess(data);
                             }
                         }
+                        deferred.resolve();
                     }
                 }
                 xmlHttpRequest.upload.addEventListener("progress", defaults.ajaxProgress, false);
@@ -141,6 +163,8 @@
                 
                 if (window.FileReader) { // Firefox and Chrome
                     var fileReader = new FileReader;
+
+                    var aSendFunction = null;
 
                     // attach events to the FileReader
                     fileReader.onabort = function(e) {
@@ -180,17 +204,35 @@
                             dashes + boundary + dashes;
 
                         xmlHttpRequest.setRequestHeader("Content-Type", "multipart/form-data;boundary=" + boundary);
-                        xmlHttpRequest.sendAsBinary(data);
+
+                        aSendFunction = function() {
+                            xmlHttpRequest.sendAsBinary(data);
+
+                            return deferred.promise();
+                        }
                     } else if (window.FormData) { // Chrome
                         var formData = new FormData();
                         formData.append(defaults.name, file);
-                        xmlHttpRequest.send(formData);
+
+                        aSendFunction = function() {
+                            xmlHttpRequest.send(formData);
+
+                            return deferred.promise();
+                        }
                     }
                 } else if (window.FormData) { // Safari
                     var formData = new FormData();
                     formData.append(defaults.name, file);
-                    xmlHttpRequest.send(formData);
+
+                    aSendFunction = function() {
+                        xmlHttpRequest.send(formData);
+
+                        return deferred.promise();
+                    }
+
                 }
+
+                return aSendFunction;
             }
         });
 

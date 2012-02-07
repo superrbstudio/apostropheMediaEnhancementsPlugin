@@ -11,13 +11,10 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
     {
         if ($request->getMethod() == "POST")
         {
-            if (isset($_GET['aFile'])) {
-                $this->file = new qqUploadedFileXhr();
-            } elseif (isset($_FILES['aFile'])) {
-                $this->file = new qqUploadedFileForm();
-            }
+            $files = aEnhancedMediaTools::getInstance()->handleHtml5Upload($request);
 
-            var_dump($this->file);
+            var_dump($files);
+            die;
         }
     }
 }
