@@ -13,8 +13,30 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
         {
             $files = aEnhancedMediaTools::getInstance()->handleHtml5Upload($request);
 
-            var_dump($files);
-            die;
+            $mediaTable = Doctrine::getTable('aMediaItem');
+
+            $results = array();
+            foreach($files as $file)
+            {
+                $status = $mediaTable->addFileAsMediaItem($file);
+
+                if ($status['status'] == 'ok')
+                {
+                    $item = $status['item'];
+                    $results = array('status' => 'success', 'id' => $item->getId());
+                }
+                else if ($status['status'] == 'failed')
+                {
+                    $results = array('status' => 'failed');
+                }
+            }
+
+            if ($request->isXmlHttpRequest())
+            {
+                return $this->renderText(json_encode($results));
+            }
+
+            return $this->forward('aMedia', 'index');
         }
     }
 }

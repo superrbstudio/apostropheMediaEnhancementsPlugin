@@ -20,9 +20,9 @@
 $(document).ready(function(e) {
     $('#fileupload').aFileUploader({
         'dragenter': function () { console.log("dragenter"); },
-        'dragleave': function () { console.log("dragleave"); }
+        'dragleave': function () { console.log("dragleave"); },
         //'invalidFile': function (file) { console.log(file.name + " is invalid."); },
-        //'ajaxTransferSuccess': function(data) { console.log(data); }
+        'ajaxTransferSuccess': function(data, file) { console.log('success'); console.log(file.name); console.log(data); }
     });
 });
 

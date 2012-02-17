@@ -35,6 +35,7 @@
             // AJAX handlers
             "ajaxProgress": null,
             "ajaxTransferSuccess": null,
+            "ajaxTransferLoad": null,
             "ajaxTransferFailed": null,
             "ajaxTransferCanceled": null,
 
@@ -150,16 +151,17 @@
                         if (xmlHttpRequest.status == 200) {
                             var data = xmlHttpRequest.responseText;
                             if (typeof(defaults.ajaxTransferSuccess) == 'function') {
-                                defaults.ajaxTransferSuccess(data);
+                                defaults.ajaxTransferSuccess(data, file);
                             }
                         }
                         deferred.resolve();
                     }
                 }
-                xmlHttpRequest.upload.addEventListener("progress", defaults.ajaxProgress, false);
-                xmlHttpRequest.upload.addEventListener("load", defaults.ajaxTransferSuccess, false);
-                xmlHttpRequest.upload.addEventListener("error", defaults.ajaxTransferFailed, false);
-                xmlHttpRequest.upload.addEventListener("abort", defaults.ajaxTransferCanceled, false);
+                
+                xmlHttpRequest.upload.addEventListener("progress", function(event) { frCall(defaults.ajaxProgress, event, file); }, false);
+                xmlHttpRequest.upload.addEventListener("load", function(event) { frCall(defaults.ajaxTransferLoad, event, file); }, false);
+                xmlHttpRequest.upload.addEventListener("error", function(event) { frCall(defaults.ajaxTransferFailed, event, file); }, false);
+                xmlHttpRequest.upload.addEventListener("abort", function(event) { frCall(defaults.ajaxTransferCanceled, event, file); }, false);
                 
                 if (window.FileReader) { // Firefox and Chrome
                     var fileReader = new FileReader;
