@@ -14,6 +14,7 @@
             "name": "aFile",
             "url": "/admin/media/html5Upload",
             "maxAjaxUploads": 1,
+            "hoverClass": 'drag-over',
 
             // Drag handlers
             "dragstart": null,
@@ -23,6 +24,7 @@
             "dragover": null,
             "drag": null,
             "dragend": null,
+            "drop": null,
 
             // File reader handlers
             "onabort": null,
@@ -44,26 +46,36 @@
         }, options);
 
         return this.each(function() {
-            $input = $(this);
+            var $input = $(this);
 
             $input.bind("dragstart.aUploader", defaults.dragstart);
             $input.bind("drag.aUploader", defaults.drag);
-            $input.bind("dragenter.aUploader", defaults.dragenter);
-            $input.bind("dragleave.aUploader", defaults.dragleave);
-            $input.bind("dragover.aUploader", defaults.dragover);
+            $input.bind("dragenter.aUploader", function(e) {
+                $input.addClass(defaults.hoverClass);
+                frCall(defaults.dragenter, e);
+            });
+            $input.bind("dragleave.aUploader", function(e) {
+                $input.removeClass(defaults.hoverClass);
+                frCall(defaults.dragleave, e);
+            });
+            $input.bind("dragover.aUploader", function(e) {
+                $input.addClass(defaults.hoverClass);
+                frCall(defaults.dragover, e);
+            });
             $input.bind("drag.aUploader", defaults.drag);
             $input.bind("dragend.aUploader", defaults.dragend);
 
             if ($input.is('[type="file"]')) {
-                $input.bind("change", function () {
+                $input.bind("change", function (e) {
+                    frCall(defaults.drop, e)
                     handleFiles(this.files);
-                    //$input.closest('form').submit();
                 });
             } else {
                 $input.bind("drop.aUploader", function(event) {
                     event.preventDefault();
                     event.stopPropagation();
 
+                    frCall(defaults.drop(event));
                     handleFiles(event.originalEvent.dataTransfer.files);
                     
                     return false;
