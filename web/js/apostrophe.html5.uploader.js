@@ -70,6 +70,8 @@
                 });
             }
 
+            // This function takes multiple file inputs
+            // and tries to upload each of them individually
             function handleFiles(files)
             {
                 var requests = [];
