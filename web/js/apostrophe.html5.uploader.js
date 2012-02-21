@@ -9,6 +9,7 @@
         var crlf = '\n';
         var boundary = "apostrophe";
         var dashes = "--";
+        var fileCount = 1;
 
         var defaults = $.extend({
             "name": "aFile",
@@ -25,6 +26,9 @@
             "drag": null,
             "dragend": null,
             "drop": null,
+
+            // Miscellaneous events
+            "beforeHandle": null,
 
             // File reader handlers
             "onabort": null,
@@ -68,7 +72,7 @@
             if ($input.is('[type="file"]')) {
                 $input.bind("change", function (e) {
                     frCall(defaults.drop, e)
-                    handleFiles(this.files);
+                    handleFiles(this.files, e);
                 });
             } else {
                 $input.bind("drop.aUploader", function(event) {
@@ -84,15 +88,17 @@
 
             // This function takes multiple file inputs
             // and tries to upload each of them individually
-            function handleFiles(files)
+            function handleFiles(files, e)
             {
                 var requests = [];
                 
                 for (var i = 0; i < files.length; i++) {
 
                     var file = files[i];
-
+                    file._uploadCount = fileCount++;
+                    
                     if (file.size > 0) {
+                        frCall(defaults.beforeHandle, e, file);
                         requests.push(upload(file));
                     }
                     else

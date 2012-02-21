@@ -28,7 +28,7 @@
     {
         opacity: 1;
     }
-    .a-file-upload-img-thumb
+    .a-file-upload-image-preview
     {
         height: 100px;
         position: relative;

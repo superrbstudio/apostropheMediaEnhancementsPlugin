@@ -10,22 +10,31 @@ function appendMediaEnhancements(apostrophe)
     // File upload enhancements
     //
     apostrophe.fileUploader = function(defaults) {
-        if ((typeof options) == 'undefined') {
-            defaults = [];
-        }
+        var defaults = $.extend({
+            'fileUploaderSelector': 'a-file-uploader',
+            'fileListSelector': 'a-file-upload-list',
+            'thumbnailClass': 'a-file-upload-thumbnail',
+            'imagePreviewClass': 'a-file-upload-image-preview'
+        }, defaults);
 
-        var $selector = (defaults.selector)? $(defaults.selector) : $('.a-file-uploader');
-        var $uploadList = (defaults.uploadListSelector)? $(defauls.uploadListSelector) : $('.a-file-upload-list');
+
+        var $selector = (defaults.selector)? $(defaults.selector) : $('.' + defaults.fileUploaderSelector);
+        var $uploadList = (defaults.uploadListSelector)? $(defauls.uploadListSelector) : $('.' + defaults.fileListSelector);
 
         function combine(fn1, fn2, e, file)
         {
             if (typeof(fn2) == 'function') {
                 if (typeof(fn1) == 'function') {
-                    return function(e, file) {fn1(e, file);fn2(e, file);};
+                    return function(e, file) {fn1(e, file); fn2(e, file);};
                 }
                 return fn2;
             }
             return fn1;
+        }
+
+        function findThumb(file)
+        {
+            return $('div[data-filename="' + escape(file.name) + '"][data-count="' + file._uploadCount + '"]');
         }
 
         $selector.each(function() {
@@ -47,57 +56,68 @@ function appendMediaEnhancements(apostrophe)
             }, options.dragend);
             options.drop = combine(function(e) {
                 $this.removeClass('drag-over');
+                $this.removeClass('drag-over');
             }, options.drop);
 
             // file upload handlers
+            options.beforeHandle = combine(function(e, file) {
+                var type = file.type.split('/');
+                var $thumb = $('<div />');
+                $thumb.addClass(defaults.thumbnailClass);
+                $thumb.addClass(defaults.thumbnailClass + '-' + type[1]);
+                $thumb.attr('data-filename', escape(file.name));
+                $thumb.attr('data-count', file._uploadCount);
+
+                $uploadList.append($thumb);
+            }, options.beforeHandle);
+
             options.onload = combine(function(e, file) {
                 var type = file.type.split('/');
-
-                var $thumb = $('<div />');
-                $thumb.addClass('a-file-upload-thumbnail');
-                $thumb.addClass('a-file-upload-thumbnail-' + type[1]);
-                $thumb.attr('data-filename', escape(file.name));
+                var $thumb = findThumb(file);
 
                 // add thumbnail if available
                 if (type[0] == 'image') {
                     if (window.FileReader) {
-                        var reader = new FileReader();
+                        var $img = $('<img />');
 
-                        reader.onload = (function(f) {
-                            return function(e)
-                            {
-                                var $img = $('<img />');
+                        var i = new Image;
+                        i.src = e.target.result;
+                        i.onload = function()
+                        {
+                            var width = i.width * 100 / i.height;
+                            var height = i.height * width / i.width;
+                            var canvas = document.createElement("canvas");
+                            var context = canvas.getContext("2d");
 
-                                var i = new Image;
-                                i.src = e.target.result;
-                                i.onload = function()
-                                {
-                                    var width = i.width * 100 / i.height;
-                                    var height = i.height * width / i.width;
-                                    var canvas = document.createElement("canvas");
-                                    var context = canvas.getContext("2d");
+                            canvas.width = width;
+                            canvas.height = height;
+                            context.drawImage(i, 0, 0, i.width, i.height, 0, 0, width, height)
 
-                                    canvas.width = width;
-                                    canvas.height = height;
-                                    context.drawImage(i, 0, 0, i.width, i.height, 0, 0, width, height)
+                            $img.addClass(defaults.imagePreviewClass);
+                            $img.attr('src', canvas.toDataURL('image/png'));
 
-                                    $img.addClass('a-file-upload-img-thumb');
-                                    $img.attr('src', canvas.toDataURL('image/png'));
-                                    $thumb.append($img);
-                                }
-                            }
-                        })(file);
-
-                        reader.readAsDataURL(file);
+                            $thumb.each(function() {
+                               // Prevent duplicate thumbs
+                               if ($(this).find('img').length == 0)
+                               {
+                                    $(this).append($img);
+                               }
+                            });
+                        }
                     }
                 }
-                $uploadList.append($thumb);
             }, options.onload);
 
-            options.ajaxTransferSuccess = combine(function(e, file) {
-               var $thumb = $('div[data-filename="' + escape(file.name) + '"]');
-               $thumb.addClass('done');
-            });
+            options.ajaxTransferSuccess = combine(function(data, file) {
+               var $thumb = findThumb(file);
+               data = $.parseJSON(data);
+
+               if (data.status == 'success') {
+                    $thumb.addClass('done');
+                    $thumb.attr('data-item-id', data.id);
+               }
+
+            }, options.ajaxTransferSuccess);
 
             $this.aFileUploader(options);
         });

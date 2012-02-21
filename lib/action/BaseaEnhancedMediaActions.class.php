@@ -24,6 +24,9 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
                 {
                     $item = $status['item'];
                     $results = array('status' => 'success', 'id' => $item->getId());
+                    
+                    // remove the temp upload
+                    unlink($file);
                 }
                 else if ($status['status'] == 'failed')
                 {
