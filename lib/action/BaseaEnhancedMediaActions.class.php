@@ -23,7 +23,14 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
                 if ($status['status'] == 'ok')
                 {
                     $item = $status['item'];
-                    $results = array('status' => 'success', 'id' => $item->getId());
+                    $results = array(
+                        'status' => 'success',
+                        'id' => $item->getId(),
+                        'item' => $item->toArray(),
+                        'viewUrl' => url_for('a_media_image_show', array('slug' => $item->getSlug())),
+                        'editUrl' => url_for('a_media_edit', array('slug' => $item->getSlug())),
+                        'deleteUrl' => url_for('aMedia/delete', array('slug' => $item->getSlug()))
+                    );
                     
                     // remove the temp upload
                     unlink($file);

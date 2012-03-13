@@ -12,9 +12,7 @@ function appendMediaEnhancements(apostrophe)
     apostrophe.fileUploader = function(defaults) {
         var defaults = $.extend({
             'fileUploaderSelector': 'a-file-uploader',
-            'fileListSelector': 'a-file-upload-list',
-            'thumbnailClass': 'a-file-upload-thumbnail',
-            'imagePreviewClass': 'a-file-upload-image-preview'
+            'fileListSelector': 'a-file-upload-list'
         }, defaults);
 
 
@@ -62,9 +60,8 @@ function appendMediaEnhancements(apostrophe)
             // file upload handlers
             options.beforeHandle = combine(function(e, file) {
                 var type = file.type.split('/');
-                var $thumb = $('<div />');
-                $thumb.addClass(defaults.thumbnailClass);
-                $thumb.addClass(defaults.thumbnailClass + '-' + type[1]);
+                var $thumb = $(_.template($('#a-tmpl-media-thumb').text(), {}));
+                $thumb.addClass(type[1]);
                 $thumb.attr('data-filename', escape(file.name));
                 $thumb.attr('data-count', file._uploadCount);
 
@@ -78,7 +75,7 @@ function appendMediaEnhancements(apostrophe)
                 // add thumbnail if available
                 if (type[0] == 'image') {
                     if (window.FileReader) {
-                        var $img = $('<img />');
+                        var $img = $(_.template($('#a-tmpl-media-upload-thumb').text(), {}));
 
                         var i = new Image;
                         i.src = e.target.result;
@@ -93,7 +90,6 @@ function appendMediaEnhancements(apostrophe)
                             canvas.height = height;
                             context.drawImage(i, 0, 0, i.width, i.height, 0, 0, width, height)
 
-                            $img.addClass(defaults.imagePreviewClass);
                             $img.attr('src', canvas.toDataURL('image/png'));
 
                             $thumb.each(function() {
@@ -113,8 +109,18 @@ function appendMediaEnhancements(apostrophe)
                data = $.parseJSON(data);
 
                if (data.status == 'success') {
+                    // Change thumbnail class
                     $thumb.addClass('done');
                     $thumb.attr('data-item-id', data.id);
+
+                    // Add title text
+                    var params = {};
+                    params.item_title = data.item.title;
+                    params.view_url = data.viewUrl;
+                    params.edit_url = data.editUrl;
+                    params.delete_url = data.deleteUrl;
+                    var $title = $(_.template($('#a-tmpl-media-upload-title').text(), params));
+                    $thumb.append($title);
                }
 
             }, options.ajaxTransferSuccess);
