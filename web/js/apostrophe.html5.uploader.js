@@ -7,9 +7,18 @@
     $.fn.aFileUploader = function(options) {
 
         var crlf = '\n';
-        var boundary = "apostrophe";
+        var boundary = (function() {
+            var string = 'apostrophe';
+            for (var i = 0; i < 60; i++) {
+                string = string + String.fromCharCode(Math.floor(65 + Math.random() * 26));
+            }
+
+            return string;
+        })(); // big nasty one-time string
         var dashes = "--";
         var fileCount = 1;
+
+        aLog(boundary);
 
         var defaults = $.extend({
             "name": "aFile",
@@ -49,6 +58,15 @@
             "invalidFile": null
         }, options);
 
+
+        function frCall(fn, e, file)
+        {
+            if (typeof(fn) == 'function')
+            {
+                fn(e, file);
+            }
+        }
+
         return this.each(function() {
             var $input = $(this);
 
@@ -70,7 +88,7 @@
             $input.bind("dragend.aUploader", defaults.dragend);
 
             if ($input.is('[type="file"]')) {
-                $input.bind("change", function (e) {
+                $input.bind("change.aUploader", function (e) {
                     frCall(defaults.drop, e)
                     handleFiles(this.files, e);
                 });
@@ -103,10 +121,7 @@
                     }
                     else
                     {
-                        if (typeof(defaults.invalidFile) == 'function')
-                        {
-                            defaults.invalidFile(file);
-                        }
+                        frCall(defaults.invalidFile, e, file);
                     }
 
                 }
@@ -144,14 +159,6 @@
             $input.bind("dragover.aUploader", function(event) {
                 return cancelEvent(event);
             });
-
-            function frCall(fn, e, file)
-            {
-                if (typeof(fn) == 'function')
-                {
-                    fn(e, file);
-                }
-            }
 
             // This will work on Firefox and Chrome
             function upload(file)
@@ -216,7 +223,7 @@
                     // load the file
                     fileReader.readAsDataURL(file);
 
-                    if (file.getAsBinary) { // Firefox chrome
+                    if (file.getAsBinary) { // Firefox
                         var data = dashes + boundary + crlf +
                             "Content-Disposition: form-data;" +
                             "name=\"" + defaults.name + "\";" +
