@@ -35,9 +35,31 @@ function appendMediaEnhancements(apostrophe)
             return $('div[data-filename="' + escape(file.name) + '"][data-count="' + file._uploadCount + '"]');
         }
 
+        function addThumbHandlers(thumb)
+        {
+            var $thumb = $(thumb);
+
+            // Edit link handler
+            $thumb.on('click.a-media-uploader', 'a.a-upload-edit', function(event) {
+                console.log('a-upload-edit');
+                event.preventDefault();
+
+                return false;
+            });
+
+            // Delete link handler
+            $thumb.on('click.a-media-uploader', 'a.a-upload-delete', function(event) {
+                console.log('a-upload-delete');
+                event.preventDefault();
+
+                return false;
+            });
+        }
+
         $selector.each(function() {
             var $this = $(this);
             var options = $.extend({}, defaults);
+            var files = [];
 
             // default drag handlers
             options.dragenter = combine(function(e) {
@@ -58,19 +80,25 @@ function appendMediaEnhancements(apostrophe)
             }, options.drop);
 
             // file upload handlers
+            // before load
             options.beforeHandle = combine(function(e, file) {
                 var type = file.type.split('/');
-                var $thumb = $(_.template($('#a-tmpl-media-thumb').text(), {}));
-                $thumb.addClass(type[1]);
-                $thumb.attr('data-filename', escape(file.name));
-                $thumb.attr('data-count', file._uploadCount);
+                file._thumb = $(_.template($('#a-tmpl-media-thumb').text(), {}));
+                file._thumb.addClass(type[1]);
+                file._thumb.attr('data-filename', escape(file.name));
+   
 
-                $uploadList.append($thumb);
+                addThumbHandlers(file._thumb);
+                $uploadList.append(file._thumb);
+
+                // keep this file and thumbnail in memory
+                files[file._uploadCount] = file;
             }, options.beforeHandle);
 
+            // on image load
             options.onload = combine(function(e, file) {
                 var type = file.type.split('/');
-                var $thumb = findThumb(file);
+                var $thumb = $(file._thumb);
 
                 // add thumbnail if available
                 if (type[0] == 'image') {
@@ -104,8 +132,9 @@ function appendMediaEnhancements(apostrophe)
                 }
             }, options.onload);
 
+            // on success
             options.ajaxTransferSuccess = combine(function(data, file) {
-               var $thumb = findThumb(file);
+               var $thumb = $(file._thumb);
                data = $.parseJSON(data);
 
                if (data.status == 'success') {

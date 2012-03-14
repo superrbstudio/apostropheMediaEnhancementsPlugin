@@ -11,10 +11,13 @@
     <a href="<%= view_url %>">
         <span class="a-media-upload-title"><%= item_title %></span>
     </a>
+    <br />
     <a class="a-upload-edit" href="<%= edit_url %>">
-        <span class="icon">Edit</span>
+        Edit
     </a>
+    <br />
     <a class="a-upload-delete" href="<%= delete_url %>">
-        <span class="icon">Delete</span>
+        Delete
     </a>
+    <div class="a-upload-edit-form"></div>
 </script>
