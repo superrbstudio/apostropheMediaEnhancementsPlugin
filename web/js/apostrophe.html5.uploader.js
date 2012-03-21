@@ -18,8 +18,6 @@
         var dashes = "--";
         var fileCount = 1;
 
-        aLog(boundary);
-
         var defaults = $.extend({
             "name": "aFile",
             "url": "/admin/media/html5Upload",
@@ -50,8 +48,10 @@
             // AJAX handlers
             "ajaxProgress": null,
             "ajaxTransferSuccess": null,
+            "ajaxTransferFail": null,
+
+            // trigger these somewhere
             "ajaxTransferLoad": null,
-            "ajaxTransferFailed": null,
             "ajaxTransferCanceled": null,
 
             // Other handlers
@@ -113,7 +113,6 @@
                 for (var i = 0; i < files.length; i++) {
 
                     var file = files[i];
-                    file._uploadCount = fileCount++;
                     
                     if (file.size > 0) {
                         frCall(defaults.beforeHandle, e, file);
@@ -175,12 +174,17 @@
                 // Ajax events
                 xmlHttpRequest.onreadystatechange = function() {
                     if ((xmlHttpRequest.readyState == 4)) {
-                        if (xmlHttpRequest.status == 200) {
+                        var status = xmlHttpRequest.status;
+
+                        if (status == 200) {
                             var data = xmlHttpRequest.responseText;
-                            if (typeof(defaults.ajaxTransferSuccess) == 'function') {
-                                defaults.ajaxTransferSuccess(data, file);
-                            }
+
+                            frCall(defaults.ajaxTransferSuccess, data, file);
+
+                        } else if ((status == 404) || (status == 500)) {
+                            frCall(defaults.ajaxTransferFail, null, file);
                         }
+
                         deferred.resolve();
                     }
                 }

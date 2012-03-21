@@ -9,6 +9,8 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
 {
     public function executeHtml5Upload(sfWebRequest $request)
     {
+        $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
+
         if ($request->getMethod() == "POST")
         {
             $files = aEnhancedMediaTools::getInstance()->handleHtml5Upload($request);

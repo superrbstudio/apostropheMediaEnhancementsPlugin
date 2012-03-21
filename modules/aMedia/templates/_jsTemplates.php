@@ -1,10 +1,10 @@
 <script id="a-tmpl-media-thumb" type="text/template">
-    <div class="a-file-upload-thumbnail">
-    </div>
+    <li class="a-file-upload-thumbnail <%= media_type %>">
+    </li>
 </script>
 
-<script id="a-tmpl-media-upload-thumb" type="text/template">
-    <img class="a-file-upload-image-preview" />
+<script id="a-tmpl-media-thumb-image" type="text/template">
+    <img class="a-file-upload-image" src="<%= image_data %>" />
 </script>
 
 <script id="a-tmpl-media-upload-title" type="text/template">
@@ -20,4 +20,11 @@
         Delete
     </a>
     <div class="a-upload-edit-form"></div>
+</script>
+
+<script id="a-upload-edit-form" type="text/template">
+</script>
+
+
+<script id="a-upload-batch-edit-form" type="text/template">
 </script>

@@ -28,6 +28,10 @@
     {
         opacity: 1;
     }
+    .a-file-upload-thumbnail.error
+    {
+        opacity: 0;
+    }
     .a-file-upload-preview
     {
         height: 100px;
@@ -53,8 +57,6 @@
 <div id="div-uploader" class="a-file-uploader">
 </div>
 
-<div class="a-file-upload-list">
-</div>
 
 <?php a_js_call('apostrophe.fileUploader()') ?>
 
