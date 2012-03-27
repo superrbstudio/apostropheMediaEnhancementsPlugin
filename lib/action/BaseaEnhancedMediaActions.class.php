@@ -7,6 +7,17 @@
  */
 class BaseaEnhancedMediaActions extends BaseaMediaActions
 {
+
+    /**
+     *
+     * This action serves as a target for our advanced media uploader
+     * to send files and get responses. If a user navigates directly
+     * to this page, they should be forwarded to the media index. I am
+     * leaving the forwarding aspect out for now as I need this action
+     * for testing purposes.
+     *
+     * @param sfWebRequest $request
+     */
     public function executeHtml5Upload(sfWebRequest $request)
     {
         $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
@@ -31,7 +42,8 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
                         'item' => $item->toArray(),
                         'viewUrl' => url_for('a_media_image_show', array('slug' => $item->getSlug())),
                         'editUrl' => url_for('a_media_edit', array('slug' => $item->getSlug())),
-                        'deleteUrl' => url_for('aMedia/delete', array('slug' => $item->getSlug()))
+                        // this is a bad way to construct a URL. Update the routing to make this better.
+                        'deleteUrl' => url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())))
                     );
                     
                     // remove the temp upload

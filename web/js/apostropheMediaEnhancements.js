@@ -15,13 +15,10 @@ $(document).ready(function() {
 
             'viewUrl': null,
             'editUrl': null,
-            'deleteUrl': null
+            'deleteUrl': null,
         },
 
         setDone: function(data) {
-            // memory management
-            this.set('file', null);
-
             // set the new params
             this.set('id', data.item.id);
             this.set('title', data.item.title);
@@ -46,7 +43,8 @@ $(document).ready(function() {
         titleTemplate: _.template($('#a-tmpl-media-upload-title').text()),
 
         events: {
-            'click .a-upload-edit':     'edit'
+            'click .a-upload-edit':     'edit',
+            'click .a-upload-delete':   'del'
         },
 
         initialize: function() {
@@ -67,7 +65,7 @@ $(document).ready(function() {
             var params = {};
             params.image_data = imageData;
 
-            this.$el.append($(this.imageTemplate(params)));
+            this.$el.prepend($(this.imageTemplate(params)));
         },
 
         setDone: function() {
@@ -88,8 +86,29 @@ $(document).ready(function() {
 
         edit: function(event) {
             event.preventDefault();
-            console.log(this.model.get('title') + ".edit()");
+            aLog(this.model.get('title') + ".edit()");
             
+
+            return false;
+        },
+
+        del: function(event) {
+            event.preventDefault();
+            aLog(this.model.get('title') + "View.remove()");
+
+            if (confirm('Are you sure?')) {
+                var me = this;
+
+                $.ajax({
+                    url: me.model.get('deleteUrl'),
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data && data.status && (data.status == 'success')) {
+                        me.collection.remove(me.model);
+                        }
+                    }
+                });
+            }
 
             return false;
         }
@@ -113,27 +132,48 @@ $(document).ready(function() {
 
         widget: null,
         collection: null,
-        _MediaItemViews: {},
+        _MediaItemViews: [],
 
         initialize: function() {
-            _(this).bindAll('add');
+            _(this).bindAll('add', 'remove');
 
             this.collection.bind('add', this.add);
-            this.render();
+            this.collection.bind('remove', this.remove);
+            
+            this.options.widget.after(this.$el);
         },
 
         render: function() {
-            this.options.widget.after(this.$el);
+            var me = this;
+            aLog('MediaItemCollectionView.render()');
+
+            me.$el.empty();
+            _(this.MediaItemViews).each(function(item) {
+                me.$el.append(item.get('view').$el);
+            });
+            
             return this;
         },
 
         add: function(item) {
+            var me = this;
+
             var itemView = new MediaItemView({
-                model: item
+                model: item,
+                collection: me.collection
             });
 
-            this._MediaItemViews[item.get('count')] = itemView;
+            this._MediaItemViews.push(itemView);
             this.$el.append(itemView.$el);
+        },
+
+        remove: function(model) {
+            var childView = _(this._MediaItemViews).select(function(cv) {
+                return cv.model === model;
+            })[0];
+            this._MediaItemViews = _(this._MediaItemViews).without(childView);
+
+            childView.remove();
         }
     });
 
@@ -212,7 +252,7 @@ $(document).ready(function() {
 
                     var item = new MediaItem(params);
                     mediaItems.add(item);
-
+                    
                 }, options.beforeHandle);
 
                 // on image load
@@ -256,7 +296,7 @@ $(document).ready(function() {
                 options.ajaxTransferFail = combine(function(data, file) {
                     var item = mediaItems.findByFile(file);
                     item.setError();
-                }, options.ajaxTransferSuccess);
+                }, options.ajaxTransferFail);
 
                 // Set up thew widget
                 $this.aFileUploader(options);
