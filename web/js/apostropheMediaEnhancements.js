@@ -9,6 +9,9 @@ $(document).ready(function() {
             'count': null,
             'filename': null,
             'title': null,
+            'description': null,
+            'credit': null,
+            'is_secure': null,
             'mediaType': null,
             'file': null,
             'view': null,
@@ -20,13 +23,20 @@ $(document).ready(function() {
 
         setDone: function(data) {
             // set the new params
+            this.updateValues(data);
+
+            this.get('view').setDone();
+        },
+
+        updateValues: function(data) {
             this.set('id', data.item.id);
             this.set('title', data.item.title);
+            this.set('description', data.item.description);
+            this.set('credit', data.item.credit);
+            this.set('is_secure', data.item.view_is_secure);
             this.set('viewUrl', data.viewUrl);
             this.set('editUrl', data.editUrl);
             this.set('deleteUrl', data.deleteUrl);
-
-            this.get('view').setDone();
         },
 
         setError: function() {
@@ -41,10 +51,13 @@ $(document).ready(function() {
         itemTemplate: _.template($('#a-tmpl-media-thumb').text()),
         imageTemplate: _.template($('#a-tmpl-media-thumb-image').text()),
         titleTemplate: _.template($('#a-tmpl-media-upload-title').text()),
+        editTemplate:  _.template($('#a-upload-edit-form').text()),
 
         events: {
-            'click .a-upload-edit':     'edit',
-            'click .a-upload-delete':   'del'
+            'click .a-upload-edit':         'edit',
+            'click .a-upload-delete':       'del',
+            'submit .a-upload-edit-form':   'submit',
+            'click .a-upload-cancel':       'hideForm'
         },
 
         initialize: function() {
@@ -70,6 +83,12 @@ $(document).ready(function() {
 
         setDone: function() {
             this.$el.removeClass('error').addClass('done');
+            this.updateValues();
+        },
+
+        updateValues: function() {
+            this.hideForm();
+            this.$el.find('.a-media-upload-controls').remove();
 
             var params = {};
             params.item_title = this.model.get('title');
@@ -87,9 +106,20 @@ $(document).ready(function() {
         edit: function(event) {
             event.preventDefault();
             aLog(this.model.get('title') + ".edit()");
-            
+
+            var params = {};
+            params.id = this.model.get('id');
+            params.title = this.model.get('title');
+            params.description = this.model.get('description');
+            params.credit = this.model.get('credit');
+            params.is_secure = this.model.get('is_secure');
+            this.$el.append($(this.editTemplate(params)));
 
             return false;
+        },
+
+        hideForm: function() {
+            this.$el.find('.a-upload-form-container').remove();
         },
 
         del: function(event) {
@@ -104,11 +134,37 @@ $(document).ready(function() {
                     dataType: 'json',
                     success: function(data) {
                         if (data && data.status && (data.status == 'success')) {
-                        me.collection.remove(me.model);
+                            me.collection.remove(me.model);
                         }
                     }
                 });
             }
+
+            return false;
+        },
+
+        submit: function(event) {
+            event.preventDefault();
+            aLog(this.model.get('title') + 'View.submit()');
+
+            var me = this;
+            var $target = $(event.target);
+            var formData = $target.serialize();
+            var postUrl = this.model.get('editUrl');
+
+            $.ajax({
+                url: postUrl,
+                data: formData,
+                dataType: 'json',
+                type: 'POST',
+                success: function(data) {
+                    if (data.status && (data.status == 'success')) {
+                        me.model.updateValues(data);
+                        me.updateValues();
+                    }
+                }
+            });
+
 
             return false;
         }

@@ -8,21 +8,51 @@
 </script>
 
 <script id="a-tmpl-media-upload-title" type="text/template">
-    <a href="<%= view_url %>">
-        <span class="a-media-upload-title"><%= item_title %></span>
-    </a>
-    <br />
-    <a class="a-upload-edit" href="<%= edit_url %>">
-        Edit
-    </a>
-    <br />
-    <a class="a-upload-delete" href="<%= delete_url %>">
-        Delete
-    </a>
-    <div class="a-upload-edit-form"></div>
+    <div class="a-media-upload-controls">
+        <a href="<%= view_url %>">
+            <span class="a-media-upload-title"><%= item_title %></span>
+        </a>
+        <br />
+        <a class="a-upload-edit" href="<%= edit_url %>">
+            Edit
+        </a>
+        <br />
+        <a class="a-upload-delete" href="<%= delete_url %>">
+            Delete
+        </a>
+    </div>
 </script>
 
 <script id="a-upload-edit-form" type="text/template">
+    <div class="a-upload-form-container">
+        Edit <%= title %>
+        <form class="a-upload-edit-form">
+            <ul>
+                <li>
+                    Title <input type="input" name="media_item[title]" value="<%= title %>" />
+                </li>
+                <li>
+                    Description <textarea name="media_item[description]"><%= description %></textarea>
+                </li>
+                <li>
+                    Credit <input type="input" name="media_item[credit]" value="<%= credit %>" />
+                </li>
+                <li>
+                    <ul>
+                        <li>
+                            Public <input type="radio" name="media_item[is_secure]" <% if (!obj.is_secure) { %> checked="checked" <% } %> value="0" />
+                        </li>
+                        <li>
+                            Hidden <input type="radio" name="media_item[is_secure]" <% if (obj.is_secure) { %> checked="checked" <% } %> value="1" />
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <input type="submit" />
+        </form>
+        <a href="#" class="a-upload-cancel">Cancel</a>
+    </div>
 </script>
 
 

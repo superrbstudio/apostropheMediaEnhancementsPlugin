@@ -36,22 +36,14 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
                 if ($status['status'] == 'ok')
                 {
                     $item = $status['item'];
-                    $results = array(
-                        'status' => 'success',
-                        'id' => $item->getId(),
-                        'item' => $item->toArray(),
-                        'viewUrl' => url_for('a_media_image_show', array('slug' => $item->getSlug())),
-                        'editUrl' => url_for('a_media_edit', array('slug' => $item->getSlug())),
-                        // this is a bad way to construct a URL. Update the routing to make this better.
-                        'deleteUrl' => url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())))
-                    );
+                    $results = $this->arrayMediaItemResponse($item, 'success');
                     
                     // remove the temp upload
                     unlink($file);
                 }
                 else if ($status['status'] == 'failed')
                 {
-                    $results = array('status' => 'failed');
+                    $results = $this->arrayMediaItemResponse(null, 'failed');
                 }
             }
 
@@ -62,6 +54,67 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
 
             return $this->forward('aMedia', 'index');
         }
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request
+     */
+    public function executeHtml5Edit(sfWebRequest $request)
+    {
+        $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
+        $this->forward404Unless($request->hasParameter('slug'));
+        $item = aMediaTools::getItem($this);
+        $this->forward404Unless($item->userHasPrivilege('edit'));
+
+        if ($request->hasParameter('media_item'))
+        {
+            $params = $request->getParameter('media_item');
+
+            $item->title = $params['title'];
+            $item->description = $params['description'];
+            $item->credit = $params['credit'];
+            $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
+            $item->save();
+        }
+
+        if ($request->isXmlHttpRequest())
+        {
+            return $this->renderText(json_encode($this->arrayMediaItemResponse($item, 'success')));
+        }
+
+        return $this->forward('aMedia', 'index');
+    }
+
+    /**
+     * Returns a json string that reasonably represents a
+     * MediaItem so that we may use it with some frontend
+     * MVC tools.
+     *
+     * @param MediaItem $item
+     * @return string
+     */
+    public function arrayMediaItemResponse(aMediaItem $item = null, $status = null)
+    {
+        $ar = array();
+        if ($status)
+        {
+            $ar['status'] = $status;
+        }
+
+
+        if ($item)
+        {
+            $ar['id'] = $item->getId();
+            $ar['item'] = $item->toArray();
+            $ar['viewUrl'] = url_for('a_media_image_show', array('slug' => $item->getSlug()));
+
+            // this is a bad way to construct a URL. Update the routing to make this better.
+            $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
+            $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
+        }
+
+        return $ar;
     }
 }
 
