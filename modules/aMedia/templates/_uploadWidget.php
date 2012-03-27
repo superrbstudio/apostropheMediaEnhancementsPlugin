@@ -57,6 +57,7 @@
 <div id="div-uploader" class="a-file-uploader">
 </div>
 
-
-<?php a_js_call('apostrophe.fileUploader()') ?>
+<?php $options = array(url_for('aMedia/getAllTags'), url_for('aMedia/getPopularTags')); ?>
+<?php a_js_call('apostrophe.setTypeaheadUrl(?)', url_for(a_url('taggableComplete', 'complete'))) ?>
+<?php a_js_call('$.when(apostrophe.getAllTags(?)).then($.when(apostrophe.getPopularTags(?).then(apostrophe.fileUploader())));', url_for('aMedia/getAllTags'), url_for('aMedia/getPopularTags')) ?>
 

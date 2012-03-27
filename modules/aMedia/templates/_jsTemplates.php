@@ -38,6 +38,9 @@
                     Credit <input type="input" name="media_item[credit]" value="<%= credit %>" />
                 </li>
                 <li>
+                    Tags <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
+                </li>
+                <li>
                     <ul>
                         <li>
                             Public <input type="radio" name="media_item[is_secure]" <% if (!obj.is_secure) { %> checked="checked" <% } %> value="0" />
@@ -49,7 +52,7 @@
                 </li>
             </ul>
 
-            <input type="submit" />
+            <input type="submit" class="a-upload-submit-<%= id %>" />
         </form>
         <a href="#" class="a-upload-cancel">Cancel</a>
     </div>

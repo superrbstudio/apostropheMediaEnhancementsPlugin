@@ -86,6 +86,26 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
         return $this->forward('aMedia', 'index');
     }
 
+    public function executeGetAllTags(sfWebRequest $request)
+    {
+        if ($request->isXmlHttpRequest())
+        {
+            return $this->renderText(json_encode(PluginTagTable::getPopulars(null, array('sort_by_popularity' => true), false, 10)));
+        }
+
+        return $this->forward('aMedia', 'index');
+    }
+
+    public function executeGetPopularTags(sfWebRequest $request)
+    {
+        if ($request->isXmlHttpRequest())
+        {
+            return $this->renderText(json_encode(PluginTagTable::getAllTagNameWithCount()));
+        }
+
+        return $this->forward('aMedia', 'index');
+    }
+
     /**
      * Returns a json string that reasonably represents a
      * MediaItem so that we may use it with some frontend
@@ -112,6 +132,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
             // this is a bad way to construct a URL. Update the routing to make this better.
             $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
             $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
+            $ar['tags'] = implode(',', $item->getTags());
         }
 
         return $ar;

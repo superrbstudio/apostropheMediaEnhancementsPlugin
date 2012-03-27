@@ -12,6 +12,7 @@ $(document).ready(function() {
             'description': null,
             'credit': null,
             'is_secure': null,
+            'tags': null,
             'mediaType': null,
             'file': null,
             'view': null,
@@ -34,6 +35,7 @@ $(document).ready(function() {
             this.set('description', data.item.description);
             this.set('credit', data.item.credit);
             this.set('is_secure', data.item.view_is_secure);
+            this.set('tags', data.tags);
             this.set('viewUrl', data.viewUrl);
             this.set('editUrl', data.editUrl);
             this.set('deleteUrl', data.deleteUrl);
@@ -113,7 +115,12 @@ $(document).ready(function() {
             params.description = this.model.get('description');
             params.credit = this.model.get('credit');
             params.is_secure = this.model.get('is_secure');
+            params.tags = this.model.get('tags');
+
             this.$el.append($(this.editTemplate(params)));
+
+            aLog(this.$el.find('.a-upload-tags-input'));
+            pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), { 'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl });
 
             return false;
         },
@@ -243,6 +250,37 @@ $(document).ready(function() {
 
     function appendMediaEnhancements(apostrophe)
     {
+        // Taggable widget enhancements
+        apostrophe.popularTags = [];
+        apostrophe.allTags = [];
+
+        apostrophe.getPopularTags = function(getUrl) {
+            return $.ajax({
+                url: getUrl,
+                dataType: 'json',
+                success: function(data) {
+                    apostrophe.popularTags = data;
+                }
+            });
+        };
+
+        apostrophe.getAllTags = function(getUrl) {
+            return $.ajax({
+                url: getUrl,
+                dataType: 'json',
+                success: function(data) {
+                    apostrophe.allTags = data;
+                }
+            });
+        };
+
+        apostrophe.typeaheadUrl = '';
+
+        apostrophe.setTypeaheadUrl = function(url) {
+            apostrophe.typeaheadUrl = url;
+        }
+        
+
         //
         // File upload enhancements
         //
