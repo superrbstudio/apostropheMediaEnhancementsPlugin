@@ -75,6 +75,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
             $item->description = $params['description'];
             $item->credit = $params['credit'];
             $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
+            $item->addTag($params['tags']);
 
             if (!empty($params['categories']))
             {
