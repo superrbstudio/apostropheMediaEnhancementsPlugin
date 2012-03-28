@@ -75,6 +75,19 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
             $item->description = $params['description'];
             $item->credit = $params['credit'];
             $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
+
+            if ($params['categories'])
+            {
+                $categories = Doctrine::getTable('aCategory')->createQuery('c')
+                        ->andWhereIn('id', $params['categories'])
+                        ->execute();
+
+                foreach($categories as $c)
+                {
+                    $item->Categories[] = $c;
+                }
+            }
+
             $item->save();
         }
 
@@ -101,6 +114,17 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
         if ($request->isXmlHttpRequest())
         {
             return $this->renderText(json_encode(PluginTagTable::getAllTagNameWithCount()));
+        }
+
+        return $this->forward('aMedia', 'index');
+    }
+
+    public function executeGetAllCategories(sfWebRequest $request)
+    {
+        $categories = Doctrine::getTable('aCategory')->createQuery('c')->fetchArray();
+        if ($request->isXmlHttpRequest())
+        {
+            return $this->renderText(json_encode($categories));
         }
 
         return $this->forward('aMedia', 'index');

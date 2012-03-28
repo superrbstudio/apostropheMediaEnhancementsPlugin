@@ -38,6 +38,16 @@
                     Credit <input type="input" name="media_item[credit]" value="<%= credit %>" />
                 </li>
                 <li>
+                    Categories:
+                    <select multiple="multiple" name="media_item[categories][]">
+                        <% _.each(allCategories, function(c) { %>
+                            <option value="<%= c.id %>" <% if (_(categories).find(function(cat) {
+                                    return cat.id === c.id;
+                                })) { %> selected="selected" <% } %>><%= c.name %></option>
+                        <% }); %>
+                    </select>
+                </li>
+                <li>
                     Tags <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
                 </li>
                 <li>

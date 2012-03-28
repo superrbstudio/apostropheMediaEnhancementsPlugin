@@ -13,6 +13,7 @@ $(document).ready(function() {
             'credit': null,
             'is_secure': null,
             'tags': null,
+            'categories': null,
             'mediaType': null,
             'file': null,
             'view': null,
@@ -36,6 +37,7 @@ $(document).ready(function() {
             this.set('credit', data.item.credit);
             this.set('is_secure', data.item.view_is_secure);
             this.set('tags', data.tags);
+            this.set('categories', data.item.Categories);
             this.set('viewUrl', data.viewUrl);
             this.set('editUrl', data.editUrl);
             this.set('deleteUrl', data.deleteUrl);
@@ -116,11 +118,16 @@ $(document).ready(function() {
             params.credit = this.model.get('credit');
             params.is_secure = this.model.get('is_secure');
             params.tags = this.model.get('tags');
+            params.categories = this.model.get('categories');
+            params.allCategories = apostrophe.allCategories;
+
+            aLog(params);
 
             this.$el.append($(this.editTemplate(params)));
 
             aLog(this.$el.find('.a-upload-tags-input'));
             pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), { 'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl });
+            aMultipleSelect(this.$el, {'choose-one': 'Select One'});
 
             return false;
         },
@@ -253,6 +260,7 @@ $(document).ready(function() {
         // Taggable widget enhancements
         apostrophe.popularTags = [];
         apostrophe.allTags = [];
+        apostrophe.allCategories = [];
 
         apostrophe.getPopularTags = function(getUrl) {
             return $.ajax({
@@ -270,6 +278,17 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(data) {
                     apostrophe.allTags = data;
+                }
+            });
+        };
+
+        apostrophe.getAllCategories = function(getUrl) {
+            return $.ajax({
+                url: getUrl,
+                dataType: 'json',
+                success: function(data) {
+                    apostrophe.allCategories = data;
+                    aLog(data);
                 }
             });
         };
