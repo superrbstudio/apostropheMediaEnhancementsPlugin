@@ -69,14 +69,14 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
 
         if ($request->hasParameter('media_item'))
         {
-            $params = $request->getParameter('media_item');
+            $params = $request->getParameter('media_item');          
 
             $item->title = $params['title'];
             $item->description = $params['description'];
             $item->credit = $params['credit'];
             $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
 
-            if ($params['categories'])
+            if (!empty($params['categories']))
             {
                 $categories = Doctrine::getTable('aCategory')->createQuery('c')
                         ->andWhereIn('id', $params['categories'])
@@ -84,6 +84,16 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
 
                 foreach($categories as $c)
                 {
+                    $item->Categories[] = $c;
+                }
+            }
+
+            if (!empty($params['categories_add']))
+            {
+                foreach($params['categories_add'] as $cName)
+                {
+                    $c = new aCategory();
+                    $c->name = $cName;
                     $item->Categories[] = $c;
                 }
             }

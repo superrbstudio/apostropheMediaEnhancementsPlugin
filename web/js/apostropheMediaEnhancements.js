@@ -127,7 +127,7 @@ $(document).ready(function() {
 
             aLog(this.$el.find('.a-upload-tags-input'));
             pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), { 'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl, 'commit-selector': this.$el.find('input[type=submit]') });
-            aMultipleSelect(this.$el, {'choose-one': 'Select One'});
+            aMultipleSelect(this.$el, {'choose-one': 'Select One', 'add': 'New Category'});
 
             return false;
         },
