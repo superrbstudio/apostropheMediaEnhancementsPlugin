@@ -126,7 +126,7 @@ $(document).ready(function() {
             this.$el.append($(this.editTemplate(params)));
 
             aLog(this.$el.find('.a-upload-tags-input'));
-            pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), { 'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl });
+            pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), { 'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl, 'commit-selector': this.$el.find('input[type=submit]') });
             aMultipleSelect(this.$el, {'choose-one': 'Select One'});
 
             return false;
