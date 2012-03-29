@@ -149,28 +149,9 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
      * @param MediaItem $item
      * @return string
      */
-    public function arrayMediaItemResponse(aMediaItem $item = null, $status = null)
+    public function arrayMediaItemResponse(aMediaItem $item = null, $status = 'success')
     {
-        $ar = array();
-        if ($status)
-        {
-            $ar['status'] = $status;
-        }
-
-
-        if ($item)
-        {
-            $ar['id'] = $item->getId();
-            $ar['item'] = $item->toArray();
-            $ar['viewUrl'] = url_for('a_media_image_show', array('slug' => $item->getSlug()));
-
-            // this is a bad way to construct a URL. Update the routing to make this better.
-            $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
-            $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
-            $ar['tags'] = implode(',', $item->getTags());
-        }
-
-        return $ar;
+        return aEnhancedMediaTools::getInstance()->toBackboneArray($item, array('status' => $status));
     }
 }
 

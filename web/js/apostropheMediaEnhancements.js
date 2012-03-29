@@ -17,6 +17,7 @@ $(document).ready(function() {
             'mediaType': null,
             'file': null,
             'view': null,
+            'type': null,
 
             'viewUrl': null,
             'editUrl': null,
@@ -31,16 +32,7 @@ $(document).ready(function() {
         },
 
         updateValues: function(data) {
-            this.set('id', data.item.id);
-            this.set('title', data.item.title);
-            this.set('description', data.item.description);
-            this.set('credit', data.item.credit);
-            this.set('is_secure', data.item.view_is_secure);
-            this.set('tags', data.tags);
-            this.set('categories', data.item.Categories);
-            this.set('viewUrl', data.viewUrl);
-            this.set('editUrl', data.editUrl);
-            this.set('deleteUrl', data.deleteUrl);
+            this.set(data);
         },
 
         setError: function() {
@@ -88,6 +80,11 @@ $(document).ready(function() {
         setDone: function() {
             this.$el.removeClass('error').addClass('done');
             this.updateValues();
+
+            // Safari and IE got no pre-preview
+            if (!window.FileReader && (this.model.get('type') == 'image') && (this.model.get('srcUrl'))) {
+                this.showImage(this.model.get('srcUrl'));
+            }
         },
 
         updateValues: function() {
@@ -111,6 +108,8 @@ $(document).ready(function() {
             event.preventDefault();
             aLog(this.model.get('title') + ".edit()");
 
+            if (this.formOpen) { return; }
+
             var params = {};
             params.id = this.model.get('id');
             params.title = this.model.get('title');
@@ -121,12 +120,10 @@ $(document).ready(function() {
             params.categories = this.model.get('categories');
             params.allCategories = apostrophe.allCategories;
 
-            aLog(params);
-
             this.$el.append($(this.editTemplate(params)));
+            this.formOpen = true;
 
-            aLog(this.$el.find('.a-upload-tags-input'));
-            pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), { 'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl, 'commit-selector': this.$el.find('input[type=submit]') });
+            pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), {'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl, 'commit-selector': this.$el.find('input[type=submit]')});
             aMultipleSelect(this.$el, {'choose-one': 'Select One', 'add': 'New Category'});
 
             return false;
@@ -134,6 +131,7 @@ $(document).ready(function() {
 
         hideForm: function() {
             this.$el.find('.a-upload-form-container').remove();
+            this.formOpen = false;
         },
 
         del: function(event) {
@@ -175,6 +173,10 @@ $(document).ready(function() {
                     if (data.status && (data.status == 'success')) {
                         me.model.updateValues(data);
                         me.updateValues();
+
+                        apostrophe.getAllCategories();
+                        apostrophe.getAllTags();
+                        apostrophe.getPopularTags();
                     }
                 }
             });
@@ -258,13 +260,28 @@ $(document).ready(function() {
     function appendMediaEnhancements(apostrophe)
     {
         // Taggable widget enhancements
+        apostrophe.popularTagsUrl = '';
         apostrophe.popularTags = [];
+        apostrophe.allTagsUrl = '';
         apostrophe.allTags = [];
+        apostrophe.allCategoriesUrl = '';
         apostrophe.allCategories = [];
 
-        apostrophe.getPopularTags = function(getUrl) {
+        apostrophe.setPopularTagsUrl = function(getUrl) {
+            apostrophe.popularTagsUrl = getUrl;
+        };
+
+        apostrophe.setAllTagsUrl = function(getUrl) {
+            apostrophe.allTagsUrl = getUrl;
+        };
+
+        apostrophe.setAllCategoriesUrl = function(getUrl) {
+            apostrophe.allCategoriesUrl = getUrl;
+        };
+
+        apostrophe.getPopularTags = function() {
             return $.ajax({
-                url: getUrl,
+                url: apostrophe.popularTagsUrl,
                 dataType: 'json',
                 success: function(data) {
                     apostrophe.popularTags = data;
@@ -272,9 +289,9 @@ $(document).ready(function() {
             });
         };
 
-        apostrophe.getAllTags = function(getUrl) {
+        apostrophe.getAllTags = function() {
             return $.ajax({
-                url: getUrl,
+                url: apostrophe.allTagsUrl,
                 dataType: 'json',
                 success: function(data) {
                     apostrophe.allTags = data;
@@ -282,13 +299,12 @@ $(document).ready(function() {
             });
         };
 
-        apostrophe.getAllCategories = function(getUrl) {
+        apostrophe.getAllCategories = function() {
             return $.ajax({
-                url: getUrl,
+                url: apostrophe.allCategoriesUrl,
                 dataType: 'json',
                 success: function(data) {
                     apostrophe.allCategories = data;
-                    aLog(data);
                 }
             });
         };
@@ -316,7 +332,7 @@ $(document).ready(function() {
             {
                 if (typeof(fn2) == 'function') {
                     if (typeof(fn1) == 'function') {
-                        return function(e, file) { fn1(e, file); fn2(e, file);};
+                        return function(e, file) {fn1(e, file);fn2(e, file);};
                     }
                     return fn2;
                 }

@@ -121,4 +121,32 @@ class BaseaEnhancedMediaTools
         
         return false;
     }
+
+    /**
+     * This takes an aMediaItem as input and returns an array suitable
+     * for usage with our backbone model
+     *
+     *
+     * @param MediaItem $item
+     * @return array
+     */
+    public function toBackboneArray(aMediaItem $item, $ar = array())
+    {
+        $ar['id'] = $item->getId();
+        $ar['viewUrl'] = url_for('a_media_image_show', array('slug' => $item->getSlug()));
+
+        // this is a bad way to construct a URL. Update the routing to make this better.
+        $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
+        $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
+        $ar['tags'] = implode(',', $item->getTags());
+
+        if ($item->type == 'image')
+        {
+            $ar['srcUrl'] = $item->getCropThumbnailUrl();
+        } else {
+            $ar['srcUrl'] = '';
+        }
+
+        return array_merge($ar, $item->toArray());
+    }
 }
