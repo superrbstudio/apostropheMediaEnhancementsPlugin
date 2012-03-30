@@ -4,41 +4,50 @@
 </script>
 
 <script id="a-tmpl-media-thumb-image" type="text/template">
-    <img class="a-file-upload-image" src="<%= image_data %>" />
+    <div class="a-file-upload-image-item">
+      <img class="a-file-upload-image" src="<%= image_data %>" />
+    </div>
 </script>
 
 <script id="a-tmpl-media-upload-title" type="text/template">
-    <div class="a-media-upload-controls">
-        <a href="<%= view_url %>">
-            <span class="a-media-upload-title"><%= item_title %></span>
-        </a>
-        <br />
-        <a class="a-upload-edit" href="<%= edit_url %>">
-            Edit
-        </a>
-        <br />
-        <a class="a-upload-delete" href="<%= delete_url %>">
-            Delete
-        </a>
+    <div class="a-ui a-media-upload-controls">
+        <div class="a-media-upload-title">
+          <a href="<%= view_url %>">
+              <%= item_title %>
+          </a>
+        </div>
+
+        <div class="a-controls">
+          <a class="a-btn icon a-edit alt lite a-upload-edit" href="<%= edit_url %>">
+          <span class='icon'></span> Edit
+          </a>
+          <a class="a-btn icon a-delete alt lite a-upload-delete" href="<%= delete_url %>">
+           <span class='icon'></span> Delete
+          </a>          
+        </div>
     </div>
 </script>
+
 
 <script id="a-upload-edit-form" type="text/template">
     <div class="a-upload-form-container">
         Edit <%= title %>
         <form class="a-upload-edit-form">
             <ul>
-                <li>
-                    Title <input type="input" name="media_item[title]" value="<%= title %>" />
+                <li class="a-form-row">
+                  <label>Title</label>
+                    <input type="input" name="media_item[title]" value="<%= title %>" />
                 </li>
-                <li>
-                    Description <textarea name="media_item[description]"><%= description %></textarea>
+                <li class="a-form-row">
+                  <label>Description</label>
+                    <textarea name="media_item[description]"><%= description %></textarea>
                 </li>
-                <li>
-                    Credit <input type="input" name="media_item[credit]" value="<%= credit %>" />
+                <li class="a-form-row">
+                  <label>Credit</label>
+                  <input type="input" name="media_item[credit]" value="<%= credit %>" />
                 </li>
-                <li>
-                    Categories:
+                <li class="a-form-row">
+                    <label>Categories:</label>
                     <select multiple="multiple" name="media_item[categories][]">
                         <% _.each(allCategories, function(c) { %>
                             <option value="<%= c.id %>" <% if (_(categories).find(function(cat) {
@@ -47,27 +56,29 @@
                         <% }); %>
                     </select>
                 </li>
-                <li>
-                    Tags <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
+                <li class="a-form-row">
+                    <label>Tags</label>
+                    <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
                 </li>
-                <li>
+                <li class="a-form-row-radio">
                     <ul>
-                        <li>
-                            Public <input type="radio" name="media_item[is_secure]" <% if (!obj.is_secure) { %> checked="checked" <% } %> value="0" />
+                        <li class="a-form-row">
+                          <label>Public</label>
+                          <input type="radio" name="media_item[is_secure]" <% if (!obj.is_secure) { %> checked="checked" <% } %> value="0" />
                         </li>
-                        <li>
-                            Hidden <input type="radio" name="media_item[is_secure]" <% if (obj.is_secure) { %> checked="checked" <% } %> value="1" />
+                        <li class="a-form-row">
+                            <label>Hidden</label>
+                            <input type="radio" name="media_item[is_secure]" <% if (obj.is_secure) { %> checked="checked" <% } %> value="1" />
                         </li>
                     </ul>
                 </li>
             </ul>
-
+            
             <input type="submit" class="a-upload-submit-<%= id %>" />
         </form>
         <a href="#" class="a-upload-cancel">Cancel</a>
     </div>
 </script>
-
 
 <script id="a-upload-batch-edit-form" type="text/template">
 </script>

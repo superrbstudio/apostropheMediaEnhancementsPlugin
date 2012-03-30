@@ -1,0 +1,193 @@
+@import 'a-helpers';
+
+.a-media-library-upload
+{
+  max-width: 700px;
+  display: block;
+  position: relative;
+  clear: both;
+  overflow: hidden;
+  background-color: #e2e2e2;
+  @a-border-radius(4px);
+
+  .a-file-upload-list,
+  .a-media-library-upload-inner,
+  .a-file-uploader-input,
+  .a-media-library-upload-form,
+  .a-media-upload-controls
+  {
+    display: block;
+    position: relative;
+    clear: both;
+    overflow: hidden;
+  }
+
+  .a-media-library-upload-inner
+  {
+    padding:15px;
+  }
+  
+  hr.a-hr
+  {
+    margin:15px 0;
+  }
+
+  .a-media-library-upload-form
+  {
+    // keep this over the drag div
+    z-index: 50;
+  }
+
+  // file uploader (Input)
+  .a-file-uploader-input-wrapper
+  {
+    display: block;
+    position: relative;
+    clear: both;
+    overflow: hidden;
+    &:hover
+    {
+      opacity:.7;
+    }  
+    input.a-file-uploader-input,
+    h3.a-file-uploader-input-overlay
+    {
+      height: 40px;
+      line-height: 40px;
+      width: 100%;
+    }
+    input.a-file-uploader-input
+    {
+      position: absolute;
+      top:0;
+      opacity:0;
+      // hides the "button" on the input
+      text-indent: -9999px;
+      &:hover
+      {
+        cursor:pointer;
+      }        
+    }
+  }
+
+  // Drag box
+  div.a-file-uploader-dragbox
+  {
+    // should show up on drag in
+    position: absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    z-index: 40; // behind the form
+    opacity:0;
+    @a-border-radius(4px);
+    .a-file-drag-help
+    {
+      font-size: 34px;
+      height: 100%;
+      line-height: 125px;
+      color: fadeout(#333, 20%);
+      font-weight: bold !important;
+      text-align: center;
+    }
+    &.drag-over
+    {
+      opacity:1;
+      z-index:100; // in front of the form
+      @a-transition(.2s;ease-in-out );
+      background-color: fadeout(#ccc, 50%);
+      @a-box-shadow(inset 0px 0px 20px fadeout(#000, 70%));
+    }
+  }
+
+  // File upload list/thumbnails
+
+  .a-file-upload-list
+  {
+    z-index:50;
+  }
+
+  // Thumbnails
+  .a-file-upload-thumbnail
+  {
+    display: inline;
+    position: relative;
+    float: left;
+    clear: none;
+    overflow: hidden;
+    width: 22.05%;
+    margin-bottom: 10px;
+    margin-right: 3.8%;
+    opacity:.5;
+    @a-transition(.5s);
+    &:nth-child(4n)
+    {
+      margin-right: 0;
+    }
+    &.done
+    {
+      opacity: 1;
+    }
+    &.error
+    {
+      opacity: 0;
+    }
+    &.editing
+    {
+      .a-controls
+      {
+        display: none;
+      }
+    }
+    .a-file-upload-image-item
+    {
+      width: 100%;
+      height:100px;
+      overflow: hidden;
+      img
+      {
+        max-width:100%;
+      }
+    }
+  }
+  // edit/delete controls under thumbnails
+  .a-media-upload-controls
+  {
+    .a-media-upload-title
+    {
+      display: block;
+      clear: both;
+      overflow: hidden;
+      margin: 5px 0;
+      width: 100%;
+      white-space: nowrap;      
+    }
+  }
+  // edit form
+  .a-upload-form-container
+  {
+
+  }
+}
+
+
+.a-file-upload-preview
+{
+    height: 100px;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 199;
+}  
+
+
+.a-form .a-form-controls
+{
+  display: block;
+  clear: both;
+  .a-form-submit
+  {
+    float: right;
+  }
+}

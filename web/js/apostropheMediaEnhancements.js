@@ -21,7 +21,7 @@ $(document).ready(function() {
 
             'viewUrl': null,
             'editUrl': null,
-            'deleteUrl': null,
+            'deleteUrl': null
         },
 
         setDone: function(data) {
@@ -126,10 +126,13 @@ $(document).ready(function() {
             pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), {'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl, 'commit-selector': this.$el.find('input[type=submit]')});
             aMultipleSelect(this.$el, {'choose-one': 'Select One', 'add': 'New Category'});
 
+            this.$el.addClass('editing');
+
             return false;
         },
 
         hideForm: function() {
+            this.$el.removeClass('editing');
             this.$el.find('.a-upload-form-container').remove();
             this.formOpen = false;
         },
