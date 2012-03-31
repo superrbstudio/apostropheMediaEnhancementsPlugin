@@ -2,28 +2,25 @@
 <div class="a-ui a-media-library-upload">
   <?php // include thumbnail template ?>
   <?php include_partial('aMedia/jsTemplates') ?>
-  <div class="a-media-library-upload-inner">
-    <form class="a-form a-media-library-upload-form" enctype="multipart/form-data" method="POST" action="/admin/media/html5Upload">
-        
-        <?php /*<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo ini_get('upload_max_filesize') ?>" /> */ ?>
-        <div class="a-file-uploader-input-wrapper">
-          <h3 class="a-file-uploader-input-overlay"><span>+</span> Upload or drag files here</h3>
-          <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
+  <form class="a-form a-media-library-upload-form" enctype="multipart/form-data" method="POST" action="/admin/media/html5Upload">
+      
+      <?php /*<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo ini_get('upload_max_filesize') ?>" /> */ ?>
+      <div class="a-file-uploader-input-wrapper">
+        <h3 class="a-file-uploader-input-overlay"><span>+</span> Upload or drag files here</h3>
+        <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
+      </div>
+  
+      <div id="div-uploader" class="a-file-uploader a-file-uploader-dragbox">
+        <h3 class="a-file-drag-help">Drop 'em here!</h3>
+      </div>
+
+      <div class="a-form-controls">
+        <hr class="a-hr" />
+        <div class="a-form-submit">
+          <input class="a-btn big a-submit" type="submit" />
         </div>
-
-        <div class="a-form-controls">
-          <hr class="a-hr" />
-          <div class="a-form-submit">
-            <input class="a-btn big a-submit" type="submit" />
-          </div>
-        </div>
-    </form>
-
-    <div id="div-uploader" class="a-file-uploader a-file-uploader-dragbox">
-      <h3 class="a-file-drag-help">Drop 'em here!</h3>
-    </div>
-
-  </div>
+      </div>
+  </form>
 <?php $options = array(url_for('aMedia/getAllTags'), url_for('aMedia/getPopularTags')); ?>
 <?php a_js_call('apostrophe.setTypeaheadUrl(?)', url_for(a_url('taggableComplete', 'complete'))) ?>
 <?php a_js_call('apostrophe.setAllTagsUrl(?)', url_for('aMedia/getAllTags')) ?>

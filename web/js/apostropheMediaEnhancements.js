@@ -1,5 +1,22 @@
 $(document).ready(function() {
 
+    // some stuff i'm putting in that Wes should refactor :)
+    function jakesexampleforwes() {
+      var dragBox = $('.a-file-uploader-dragbox');
+
+      $(window).on('dragenter', function(event) {
+        event.preventDefault();
+        dragBox.addClass('drag-over');
+      });
+      
+      $(window).on('dragend', function(event) {
+        event.preventDefault();
+        dragBox.removeClass('drag-over');
+      });
+    };
+
+    jakesexampleforwes();
+
     // Backbone models and views for keeping track of the uploads
 
     // upload item
@@ -413,7 +430,7 @@ $(document).ready(function() {
                         }
                     }
                 }, options.onload);
-
+                
                 // on success
                 options.ajaxTransferSuccess = combine(function(data, file) {
                     var item = mediaItems.findByFile(file);

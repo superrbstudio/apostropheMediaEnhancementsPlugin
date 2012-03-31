@@ -18,16 +18,15 @@
         </div>
 
         <div class="a-controls">
-          <a class="a-btn icon a-edit alt lite a-upload-edit" href="<%= edit_url %>">
+          <a class="a-btn icon a-edit alt lite no-label a-upload-edit" href="<%= edit_url %>">
           <span class='icon'></span> Edit
           </a>
-          <a class="a-btn icon a-delete alt lite a-upload-delete" href="<%= delete_url %>">
+          <a class="a-btn icon a-delete alt lite no-label a-upload-delete" href="<%= delete_url %>">
            <span class='icon'></span> Delete
           </a>          
         </div>
     </div>
 </script>
-
 
 <script id="a-upload-edit-form" type="text/template">
     <div class="a-upload-form-container">
@@ -36,47 +35,61 @@
             <ul>
                 <li class="a-form-row">
                   <label>Title</label>
+                  <div class="a-form-field">
                     <input type="input" name="media_item[title]" value="<%= title %>" />
+                  </div>
                 </li>
                 <li class="a-form-row">
                   <label>Description</label>
+                  <div class="a-form-field">
                     <textarea name="media_item[description]"><%= description %></textarea>
+                    </div>
                 </li>
                 <li class="a-form-row">
                   <label>Credit</label>
+                  <div class="a-form-field">
                   <input type="input" name="media_item[credit]" value="<%= credit %>" />
+                  </div>
                 </li>
                 <li class="a-form-row">
                     <label>Categories:</label>
-                    <select multiple="multiple" name="media_item[categories][]">
-                        <% _.each(allCategories, function(c) { %>
-                            <option value="<%= c.id %>" <% if (_(categories).find(function(cat) {
-                                    return cat.id === c.id;
-                                })) { %> selected="selected" <% } %>><%= c.name %></option>
-                        <% }); %>
-                    </select>
+                    <div class="a-form-field">
+                      <select multiple="multiple" name="media_item[categories][]">
+                          <% _.each(allCategories, function(c) { %>
+                              <option value="<%= c.id %>" <% if (_(categories).find(function(cat) {
+                                      return cat.id === c.id;
+                                  })) { %> selected="selected" <% } %>><%= c.name %></option>
+                          <% }); %>
+                      </select>
+                    </div>
                 </li>
                 <li class="a-form-row">
                     <label>Tags</label>
+                    <div class="a-form-field">
                     <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
+                    </div>
                 </li>
                 <li class="a-form-row-radio">
                     <ul>
                         <li class="a-form-row">
                           <label>Public</label>
+                          <div class="a-form-field">
                           <input type="radio" name="media_item[is_secure]" <% if (!obj.is_secure) { %> checked="checked" <% } %> value="0" />
+                          </div>
                         </li>
                         <li class="a-form-row">
                             <label>Hidden</label>
+                            <div class="a-form-field">
                             <input type="radio" name="media_item[is_secure]" <% if (obj.is_secure) { %> checked="checked" <% } %> value="1" />
+                            </div>
                         </li>
                     </ul>
                 </li>
             </ul>
             
-            <input type="submit" class="a-upload-submit-<%= id %>" />
+            <input type="submit" class="a-btn a-submit a-upload-submit-<%= id %>" />
         </form>
-        <a href="#" class="a-upload-cancel">Cancel</a>
+        <a href="#" class="a-btn a-cancel a-upload-cancel">Cancel</a>
     </div>
 </script>
 

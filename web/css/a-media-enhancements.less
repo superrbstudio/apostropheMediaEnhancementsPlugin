@@ -6,7 +6,7 @@
   display: block;
   position: relative;
   clear: both;
-  overflow: hidden;
+  @clearfix;
   background-color: #e2e2e2;
   @a-border-radius(4px);
 
@@ -19,10 +19,10 @@
     display: block;
     position: relative;
     clear: both;
-    overflow: hidden;
+    @clearfix;
   }
 
-  .a-media-library-upload-inner
+  .a-media-library-upload-form
   {
     padding:15px;
   }
@@ -44,11 +44,14 @@
     display: block;
     position: relative;
     clear: both;
-    overflow: hidden;
+    @clearfix;
     &:hover
     {
-      opacity:.7;
-    }  
+      h3.a-file-uploader-input-overlay
+      {
+          opacity:.7;
+      }
+    }
     input.a-file-uploader-input,
     h3.a-file-uploader-input-overlay
     {
@@ -74,13 +77,7 @@
   div.a-file-uploader-dragbox
   {
     // should show up on drag in
-    position: absolute;
-    top:0;
-    bottom:0;
-    right:0;
-    left:0;
-    z-index: 40; // behind the form
-    opacity:0;
+    display: none;
     @a-border-radius(4px);
     .a-file-drag-help
     {
@@ -93,6 +90,12 @@
     }
     &.drag-over
     {
+      position: absolute;
+      display: block;
+      top:0;
+      bottom:0;
+      right:0;
+      left:0;   
       opacity:1;
       z-index:100; // in front of the form
       @a-transition(.2s;ease-in-out );
@@ -115,7 +118,7 @@
     position: relative;
     float: left;
     clear: none;
-    overflow: hidden;
+    @clearfix;
     width: 22.05%;
     margin-bottom: 10px;
     margin-right: 3.8%;
@@ -135,6 +138,22 @@
     }
     &.editing
     {
+      .a-file-upload-image-item
+      {
+        z-index: 110;
+      }
+      .a-upload-form-container
+      {
+        position: absolute;
+        top:-7px;
+        left:-7px;
+        padding:7px;
+        padding-top: 120px;
+        width:400px;
+        background-color: #fff;
+        @a-border-radius(4px);
+        z-index:100;
+      }
       .a-controls
       {
         display: none;
@@ -145,6 +164,7 @@
       width: 100%;
       height:100px;
       overflow: hidden;
+      position: relative;
       img
       {
         max-width:100%;
@@ -154,14 +174,26 @@
   // edit/delete controls under thumbnails
   .a-media-upload-controls
   {
+    > div
+    {
+      float: left;
+      display: inline;
+      position: relative;
+      clear: none;
+    }
     .a-media-upload-title
     {
       display: block;
       clear: both;
       overflow: hidden;
       margin: 5px 0;
-      width: 100%;
-      white-space: nowrap;      
+      width: 68%;
+      white-space: nowrap;
+    }
+    .a-controls
+    {
+      position: absolute;
+      right:0;
     }
   }
   // edit form
