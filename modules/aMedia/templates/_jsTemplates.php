@@ -30,7 +30,7 @@
 
 <script id="a-upload-edit-form" type="text/template">
     <div class="a-upload-form-container">
-        Edit <%= title %>
+        <h4>Editing <strong><%= title %></strong></h4>
         <form class="a-upload-edit-form">
             <ul>
                 <li class="a-form-row">
@@ -88,8 +88,8 @@
             </ul>
             
             <input type="submit" class="a-btn a-submit a-upload-submit-<%= id %>" />
+            <a href="#" class="a-btn icon a-cancel alt a-upload-cancel"><span class="icon"></span>Cancel</a>
         </form>
-        <a href="#" class="a-btn a-cancel a-upload-cancel">Cancel</a>
     </div>
 </script>
 

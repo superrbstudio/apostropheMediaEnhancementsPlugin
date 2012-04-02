@@ -136,29 +136,6 @@
     {
       opacity: 0;
     }
-    &.editing
-    {
-      .a-file-upload-image-item
-      {
-        z-index: 110;
-      }
-      .a-upload-form-container
-      {
-        position: absolute;
-        top:-7px;
-        left:-7px;
-        padding:7px;
-        padding-top: 120px;
-        width:400px;
-        background-color: #fff;
-        @a-border-radius(4px);
-        z-index:100;
-      }
-      .a-controls
-      {
-        display: none;
-      }
-    }
     .a-file-upload-image-item
     {
       width: 100%;
@@ -171,6 +148,9 @@
       }
     }
   }
+
+
+
   // edit/delete controls under thumbnails
   .a-media-upload-controls
   {
@@ -197,9 +177,36 @@
     }
   }
   // edit form
+  .editing.a-file-upload-thumbnail
+  {
+    .a-file-upload-image-item
+    {
+      z-index: 110;
+    }
+    .a-upload-form-container
+    {
+      position: absolute;
+      top:-7px;
+      left:-7px;
+      z-index:100;
+    }
+    .a-controls
+    {
+      display: none;
+    }
+  }  
+
   .a-upload-form-container
   {
-
+    padding:7px;
+    padding-top: 120px;
+    width:400px;
+    background-color: #fff;
+    @a-border-radius(4px);
+    .a-btn
+    {
+      margin-left: 2px;
+    }    
   }
 }
 
