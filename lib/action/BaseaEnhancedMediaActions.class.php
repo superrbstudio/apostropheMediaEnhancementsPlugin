@@ -73,7 +73,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
         {
             $params = $request->getParameter('media_item');          
 
-            if (aEnhancedMediaTools::getInstance()->editItem($item, $params))
+            if (($item = aEnhancedMediaTools::getInstance()->editItem($item, $params)) !== false)
             {
                 $status = 'success';
             }

@@ -54,7 +54,7 @@
                 <li class="a-form-row">
                     <label>Categories:</label>
                     <div class="a-form-field">
-                      <select multiple="multiple" name="media_item[categories][]">
+                      <select multiple="multiple" name="media_item[categories_list][]">
                           <% _.each(allCategories, function(c) { %>
                               <option value="<%= c.id %>" <% if (_(categories).find(function(cat) {
                                       return cat.id === c.id;

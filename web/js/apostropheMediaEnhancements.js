@@ -30,7 +30,7 @@ $(document).ready(function() {
             'credit': null,
             'view_is_secure': null,
             'tags': null,
-            'categories': null,
+            'Categories': null,
             'mediaType': null,
             'file': null,
             'view': null,
@@ -44,12 +44,11 @@ $(document).ready(function() {
         setDone: function(data) {
             // set the new params
             this.updateValues(data);
-
             this.get('view').setDone();
         },
 
         updateValues: function(data) {
-            this.set(data);
+            this.set(data);            
         },
 
         setError: function() {
@@ -134,7 +133,7 @@ $(document).ready(function() {
             params.credit = this.model.get('credit');
             params.is_secure = this.model.get('view_is_secure');
             params.tags = this.model.get('tags');
-            params.categories = this.model.get('categories');
+            params.categories = this.model.get('Categories');
             params.allCategories = apostrophe.allCategories;
 
             this.$el.append($(this.editTemplate(params)));

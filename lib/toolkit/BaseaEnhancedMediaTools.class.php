@@ -13,7 +13,10 @@ class BaseaEnhancedMediaTools extends aMediaTools
      */
     static public function getInstance()
     {
-        return new aEnhancedMediaTools();
+        $class = sfConfig::get('app_aMedia_enhanced_tools_class');
+        $options = sfConfig::get('app_aMedia_enhanced_tools_options');
+
+        return new $class($options);
     }
 
     /**
@@ -150,32 +153,11 @@ class BaseaEnhancedMediaTools extends aMediaTools
         return array_merge($ar, $item->toArray());
     }
 
-    public function processNewCategories($newCategories)
-    {
-        if (!sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential')))
-        {
-            return false;
-        }
-
-        $categories = array();
-        if (!empty($newCategories))
-        {
-            foreach($newCategories as $cName)
-            {
-                $c = new aCategory();
-                $c->name = $cName;
-                $categories[] = $c;
-            }
-        }
-
-        return $categories;
-    }
-
     /**
      *
      * Implements edit and validation code for editing media items.
      *
-     * Most of this code is taken from the original edit action.
+     * Most of this code is taken from the original edit form.
      *
      * @param aMediaItem $item
      * @param array $params
@@ -183,52 +165,16 @@ class BaseaEnhancedMediaTools extends aMediaTools
      */
     public function editItem(aMediaItem &$item, $params)
     {
-        $form = new aMediaEditForm($item);
-        unset($form['file'], $form['_csrf_token']);
-
-        $newCategories = array();
-        if (!empty($params['categories_add']))
-        {
-            $newCategories = $this->processNewCategories($params['categories_add']);
-            if (!$newCategories)
-            {
-                return false;
-            }
-            unset($params['categories_add']);
-        }
+        $form = new aEnhancedMediaEditForm($item);
 
         $form->bind($params, array()); // Null files array
         if ($form->isValid())
         {
-            // add categories and leave
-            $object = $form->getObject();
-            foreach($newCategories as $category)
-            {
-                $object->Categories[] = $category;
-            }
-            $object->save();
-
-            return true;
+            $form->save();
+            
+            return $form->getObject();
         }
 
         return false;
-
-//        $item->title = $params['title'];
-//        $item->description = $params['description'];
-//        $item->credit = $params['credit'];
-//        $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
-//        $item->addTag($params['tags']);
-//
-//        if (!empty($params['categories']))
-//        {
-//            $categories = Doctrine::getTable('aCategory')->createQuery('c')
-//                    ->andWhereIn('id', $params['categories'])
-//                    ->execute();
-//
-//            foreach($categories as $c)
-//            {
-//                $item->Categories[] = $c;
-//            }
-//        }
     }
 }
