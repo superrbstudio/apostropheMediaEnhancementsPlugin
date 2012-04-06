@@ -1,23 +1,26 @@
+<?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
 
-<div class="a-ui a-media-library-upload">
+<div class="a-media-library-upload">
   <?php // include thumbnail template ?>
   <?php include_partial('aMedia/jsTemplates') ?>
   <form class="a-form a-media-library-upload-form" enctype="multipart/form-data" method="POST" action="/admin/media/html5Upload">
-      
+
       <?php /*<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo ini_get('upload_max_filesize') ?>" /> */ ?>
       <div class="a-file-uploader-input-wrapper">
-        <h3 class="a-file-uploader-input-overlay"><span>+</span> Upload or drag files here</h3>
+        <h3 class="a-file-uploader-input-overlay"><span class="a-media-upload-btn"><i>+</i> Upload</span> or drag <?php echo strtolower($typeLabel) ?> here</h3>
         <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
       </div>
-  
+
       <div id="div-uploader" class="a-file-uploader a-file-uploader-dragbox">
-        <h3 class="a-file-drag-help">Drop 'em here!</h3>
+        <div class="a-file-drag-help-container clearfix">
+          <h3 class="a-file-drag-help">Drop 'em here!</h3>
+        </div>
       </div>
 
-      <div class="a-form-controls">
+      <div class="a-form-controls ">
         <hr class="a-hr" />
         <div class="a-form-submit">
-          <input class="a-btn big a-submit" type="submit" />
+          <input class="a-btn big a-submit" type="submit" value="I'm done!" />
         </div>
       </div>
   </form>

@@ -1,22 +1,6 @@
 $(document).ready(function() {
 
-    // some stuff i'm putting in that Wes should refactor :)
-    function jakesexampleforwes() {
-      var dragBox = $('.a-file-uploader-dragbox');
-
-      $(window).on('dragenter', function(event) {
-        event.preventDefault();
-        dragBox.addClass('drag-over');
-      });
-      
-      $(window).on('dragend', function(event) {
-        event.preventDefault();
-        dragBox.removeClass('drag-over');
-      });
-    };
-
-    jakesexampleforwes();
-
+    ame.initialize();
     // Backbone models and views for keeping track of the uploads
 
     // upload item
@@ -48,7 +32,7 @@ $(document).ready(function() {
         },
 
         updateValues: function(data) {
-            this.set(data);            
+            this.set(data);
         },
 
         setError: function() {
@@ -66,10 +50,10 @@ $(document).ready(function() {
         editTemplate:  _.template($('#a-upload-edit-form').text()),
 
         events: {
-            'click .a-upload-edit':         'edit',
-            'click .a-upload-delete':       'del',
-            'submit .a-upload-edit-form':   'submit',
-            'click .a-upload-cancel':       'hideForm'
+            'click .a-upload-edit':          'edit',
+            'click .a-upload-delete':        'del',
+            'submit .a-upload-edit-form':    'submit',
+            'click .a-upload-cancel':        'hideForm'
         },
 
         initialize: function() {
@@ -230,7 +214,7 @@ $(document).ready(function() {
 
             this.collection.bind('add', this.add);
             this.collection.bind('remove', this.remove);
-            
+
             this.options.widget.after(this.$el);
         },
 
@@ -242,7 +226,7 @@ $(document).ready(function() {
             _(this.MediaItemViews).each(function(item) {
                 me.$el.append(item.get('view').$el);
             });
-            
+
             return this;
         },
 
@@ -332,8 +316,8 @@ $(document).ready(function() {
 
         apostrophe.setTypeaheadUrl = function(url) {
             apostrophe.typeaheadUrl = url;
-        }
-        
+        };
+
 
         //
         // File upload enhancements
@@ -400,7 +384,7 @@ $(document).ready(function() {
 
                     var item = new MediaItem(params);
                     mediaItems.add(item);
-                    
+
                 }, options.beforeHandle);
 
                 // on image load
@@ -422,14 +406,14 @@ $(document).ready(function() {
 
                                 canvas.width = width;
                                 canvas.height = height;
-                                context.drawImage(i, 0, 0, i.width, i.height, 0, 0, width, height)
+                                context.drawImage(i, 0, 0, i.width, i.height, 0, 0, width, height);
 
                                 itemView.showImage(canvas.toDataURL('image/png'));
-                            }
+                            };
                         }
                     }
                 }, options.onload);
-                
+
                 // on success
                 options.ajaxTransferSuccess = combine(function(data, file) {
                     var item = mediaItems.findByFile(file);
@@ -449,6 +433,39 @@ $(document).ready(function() {
                 // Set up thew widget
                 $this.aFileUploader(options);
             });
-        }
+        };
     }
 });
+
+
+function aMediaEnhancementsConstructor() {
+
+  this.initialize = function() {
+    ame.handleDragEvents();
+  };
+
+  this.handleDragEvents = function() {
+    var $dragBox = $('.a-file-uploader-dragbox');
+    var $win = $(window);
+
+    $win.on('dragover', function(event) {
+      event.preventDefault();
+      showDragBox();
+    });
+
+    $win.on('dragend', function(event) {
+      event.preventDefault();
+      hideDragBox();
+    });
+
+    function showDragBox() {
+      $dragBox.addClass('drag-over');
+    }
+
+    function hideDragBox() {
+      $dragBox.removeClass('drag-over');
+    }
+  };
+}
+
+window.ame = new aMediaEnhancementsConstructor();

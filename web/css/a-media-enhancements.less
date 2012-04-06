@@ -1,14 +1,50 @@
 @import 'a-helpers';
 
+@a-media-box
+{
+  display: block;
+  background-color: #F2F2F2;
+  border: 1px solid #e2e2e2;
+  @a-border-radius(4px);
+}
+
+.a-media .a-content {
+width: 100%;
+display: block;
+clear: both;
+  .a-subnav-wrapper.media,
+  .a-media-library
+  {
+    float: left;
+    display: inline;
+    position: relative;
+  }
+  .a-media-library
+  {
+    width: 720px;
+  }
+  .a-subnav-wrapper
+  {
+    margin-right: 0;
+    margin-left: 40px;
+  }
+}
+
+.a-media-workspace
+{
+  @a-media-box;
+  margin-bottom: 20px;
+  .workspace-open { display: block; }
+  .workspace-hidden { display: none; }
+}
+
 .a-media-library-upload
 {
-  max-width: 700px;
+  width: 100%;
   display: block;
   position: relative;
   clear: both;
   @clearfix;
-  background-color: #e2e2e2;
-  @a-border-radius(4px);
 
   .a-file-upload-list,
   .a-media-library-upload-inner,
@@ -26,7 +62,7 @@
   {
     padding:15px;
   }
-  
+
   hr.a-hr
   {
     margin:15px 0;
@@ -49,7 +85,11 @@
     {
       h3.a-file-uploader-input-overlay
       {
-          opacity:.7;
+        span.a-media-upload-btn
+        {
+          background-color: darken(#e6e6e6, 5%);
+          border: 1px solid darken(#ccc, 5%);
+        }
       }
     }
     input.a-file-uploader-input,
@@ -58,6 +98,14 @@
       height: 40px;
       line-height: 40px;
       width: 100%;
+      span.a-media-upload-btn
+      {
+        padding:5px 7px;
+        background-color: #e6e6e6;
+        border: 1px solid #ccc;
+        @a-border-radius(3px);
+        @a-transition;
+      }
     }
     input.a-file-uploader-input
     {
@@ -69,7 +117,7 @@
       &:hover
       {
         cursor:pointer;
-      }        
+      }
     }
   }
 
@@ -79,14 +127,25 @@
     // should show up on drag in
     display: none;
     @a-border-radius(4px);
-    .a-file-drag-help
+    .a-file-drag-help-container
     {
-      font-size: 34px;
+      // reestablishes the height of the absolutely positioned
+      // dragbox, and allows the help text to vertically center
+      position: relative;
+      display: block;
       height: 100%;
-      line-height: 125px;
-      color: fadeout(#333, 20%);
-      font-weight: bold !important;
-      text-align: center;
+      .a-file-drag-help
+      {
+        // help text
+        position: relative;
+        font-size: 34px;
+        height: 34px;
+        top:50%;
+        margin-top: -16px;
+        color: fadeout(#333, 20%);
+        font-weight: bold !important;
+        text-align: center;
+      }
     }
     &.drag-over
     {
@@ -95,7 +154,7 @@
       top:0;
       bottom:0;
       right:0;
-      left:0;   
+      left:0;
       opacity:1;
       z-index:100; // in front of the form
       @a-transition(.2s;ease-in-out );
@@ -108,6 +167,7 @@
 
   .a-file-upload-list
   {
+    margin-top: 10px;
     z-index:50;
   }
 
@@ -154,6 +214,7 @@
   // edit/delete controls under thumbnails
   .a-media-upload-controls
   {
+    float: none;
     > div
     {
       float: left;
@@ -194,7 +255,7 @@
     {
       display: none;
     }
-  }  
+  }
 
   .a-upload-form-container
   {
@@ -206,7 +267,7 @@
     .a-btn
     {
       margin-left: 2px;
-    }    
+    }
   }
 }
 
@@ -218,7 +279,7 @@
     top: 0;
     left: 0;
     z-index: 199;
-}  
+}
 
 
 .a-form .a-form-controls
