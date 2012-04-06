@@ -74,13 +74,13 @@
                         <li class="a-form-row">
                           <label>Public</label>
                           <div class="a-form-field">
-                          <input type="radio" name="media_item[is_secure]" <% if (!obj.is_secure) { %> checked="checked" <% } %> value="0" />
+                          <input type="radio" name="media_item[view_is_secure]" <% if (!obj.view_is_secure) { %> checked="checked" <% } %> value="0" />
                           </div>
                         </li>
                         <li class="a-form-row">
                             <label>Hidden</label>
                             <div class="a-form-field">
-                            <input type="radio" name="media_item[is_secure]" <% if (obj.is_secure) { %> checked="checked" <% } %> value="1" />
+                            <input type="radio" name="media_item[view_is_secure]" <% if (obj.view_is_secure) { %> checked="checked" <% } %> value="1" />
                             </div>
                         </li>
                     </ul>

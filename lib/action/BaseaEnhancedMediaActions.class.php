@@ -31,7 +31,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
             $results = array();
             foreach($files as $file)
             {
-                $status = $mediaTable->addFileAsMediaItem($file);
+                $status = @$mediaTable->addFileAsMediaItem($file);
 
                 if ($status['status'] == 'ok')
                 {
@@ -62,49 +62,30 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
      */
     public function executeHtml5Edit(sfWebRequest $request)
     {
-        $this->forward404Unless(aMediaTools::userHasUploadPrivilege());
+        $this->forward404Unless(aEnhancedMediaTools::userHasUploadPrivilege());
         $this->forward404Unless($request->hasParameter('slug'));
-        $item = aMediaTools::getItem($this);
+        $item = aEnhancedMediaTools::getItem($this);
         $this->forward404Unless($item->userHasPrivilege('edit'));
+
+        $status = 'success';
 
         if ($request->hasParameter('media_item'))
         {
             $params = $request->getParameter('media_item');          
 
-            $item->title = $params['title'];
-            $item->description = $params['description'];
-            $item->credit = $params['credit'];
-            $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
-            $item->addTag($params['tags']);
-
-            if (!empty($params['categories']))
+            if (aEnhancedMediaTools::getInstance()->editItem($item, $params))
             {
-                $categories = Doctrine::getTable('aCategory')->createQuery('c')
-                        ->andWhereIn('id', $params['categories'])
-                        ->execute();
-
-                foreach($categories as $c)
-                {
-                    $item->Categories[] = $c;
-                }
+                $status = 'success';
             }
-
-            if (!empty($params['categories_add']))
+            else
             {
-                foreach($params['categories_add'] as $cName)
-                {
-                    $c = new aCategory();
-                    $c->name = $cName;
-                    $item->Categories[] = $c;
-                }
-            }
-
-            $item->save();
+                $status = 'failed';
+            }                    
         }
 
         if ($request->isXmlHttpRequest())
         {
-            return $this->renderText(json_encode($this->arrayMediaItemResponse($item, 'success')));
+            return $this->renderText(json_encode($this->arrayMediaItemResponse($item, $status)));
         }
 
         return $this->forward('aMedia', 'index');

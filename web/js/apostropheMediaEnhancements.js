@@ -28,7 +28,7 @@ $(document).ready(function() {
             'title': null,
             'description': null,
             'credit': null,
-            'is_secure': null,
+            'view_is_secure': null,
             'tags': null,
             'categories': null,
             'mediaType': null,
@@ -132,7 +132,7 @@ $(document).ready(function() {
             params.title = this.model.get('title');
             params.description = this.model.get('description');
             params.credit = this.model.get('credit');
-            params.is_secure = this.model.get('is_secure');
+            params.is_secure = this.model.get('view_is_secure');
             params.tags = this.model.get('tags');
             params.categories = this.model.get('categories');
             params.allCategories = apostrophe.allCategories;
@@ -141,7 +141,7 @@ $(document).ready(function() {
             this.formOpen = true;
 
             pkInlineTaggableWidget(this.$el.find('.a-upload-tags-input'), {'popular-tags': apostrophe.popularTags, 'all-tags': apostrophe.allTags, 'typeahead-url': apostrophe.typeheadUrl, 'commit-selector': this.$el.find('input[type=submit]')});
-            aMultipleSelect(this.$el, {'choose-one': 'Select One', 'add': 'New Category'});
+            aMultipleSelect(this.$el, {'choose-one': 'Select One', 'add': '+New Category'});
 
             this.$el.addClass('editing');
 

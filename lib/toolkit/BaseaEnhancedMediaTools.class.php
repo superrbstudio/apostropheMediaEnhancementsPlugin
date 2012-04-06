@@ -4,7 +4,7 @@
  * @subpackage    toolkit
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class BaseaEnhancedMediaTools
+class BaseaEnhancedMediaTools extends aMediaTools
 {
     /**
      * Get an instance to work with.
@@ -148,5 +148,87 @@ class BaseaEnhancedMediaTools
         }
 
         return array_merge($ar, $item->toArray());
+    }
+
+    public function processNewCategories($newCategories)
+    {
+        if (!sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential')))
+        {
+            return false;
+        }
+
+        $categories = array();
+        if (!empty($newCategories))
+        {
+            foreach($newCategories as $cName)
+            {
+                $c = new aCategory();
+                $c->name = $cName;
+                $categories[] = $c;
+            }
+        }
+
+        return $categories;
+    }
+
+    /**
+     *
+     * Implements edit and validation code for editing media items.
+     *
+     * Most of this code is taken from the original edit action.
+     *
+     * @param aMediaItem $item
+     * @param array $params
+     * @return aMediaItem $item
+     */
+    public function editItem(aMediaItem &$item, $params)
+    {
+        $form = new aMediaEditForm($item);
+        unset($form['file'], $form['_csrf_token']);
+
+        $newCategories = array();
+        if (!empty($params['categories_add']))
+        {
+            $newCategories = $this->processNewCategories($params['categories_add']);
+            if (!$newCategories)
+            {
+                return false;
+            }
+            unset($params['categories_add']);
+        }
+
+        $form->bind($params, array()); // Null files array
+        if ($form->isValid())
+        {
+            // add categories and leave
+            $object = $form->getObject();
+            foreach($newCategories as $category)
+            {
+                $object->Categories[] = $category;
+            }
+            $object->save();
+
+            return true;
+        }
+
+        return false;
+
+//        $item->title = $params['title'];
+//        $item->description = $params['description'];
+//        $item->credit = $params['credit'];
+//        $item->view_is_secure = ($params['is_secure'] == 1)? true : false;
+//        $item->addTag($params['tags']);
+//
+//        if (!empty($params['categories']))
+//        {
+//            $categories = Doctrine::getTable('aCategory')->createQuery('c')
+//                    ->andWhereIn('id', $params['categories'])
+//                    ->execute();
+//
+//            foreach($categories as $c)
+//            {
+//                $item->Categories[] = $c;
+//            }
+//        }
     }
 }
