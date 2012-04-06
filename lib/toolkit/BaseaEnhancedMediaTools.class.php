@@ -145,7 +145,7 @@ class BaseaEnhancedMediaTools extends aMediaTools
 
         if ($item->type == 'image')
         {
-            $ar['srcUrl'] = $item->getCropThumbnailUrl();
+            $ar['srcUrl'] = $item->getScaledUrl(array('width' => 133, 'height' => 100, 'resizeType' => 's', 'absolute' => true));
         } else {
             $ar['srcUrl'] = '';
         }

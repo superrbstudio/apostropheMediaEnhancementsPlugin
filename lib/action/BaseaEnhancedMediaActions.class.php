@@ -31,7 +31,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
             $results = array();
             foreach($files as $file)
             {
-                $status = @$mediaTable->addFileAsMediaItem($file);
+                $status = $mediaTable->addFileAsMediaItem($file);
 
                 if ($status['status'] == 'ok')
                 {
