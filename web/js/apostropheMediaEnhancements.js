@@ -438,7 +438,7 @@ $(document).ready(function() {
 });
 
 
-function aMediaEnhancementsConstructor() {
+function aMediaEnhancementsConstructor(apostrophe) {
 
   this.initialize = function() {
     ame.handleDragEvents();
@@ -466,6 +466,38 @@ function aMediaEnhancementsConstructor() {
       $dragBox.removeClass('drag-over');
     }
   };
+
+  this.aMediaEmbed = function() {
+    var toggle = $('#a-media-embed-link');
+    var target = $('#a-media-embed-target');
+
+    toggle.off('click.aEmbedToggle').on('click.aEmbedToggle', function(e) {
+      e.preventDefault();
+      var self = $(this);
+      if (target.hasClass('embed-closed')) {
+        openEmbed(target);
+      }
+      else
+      {
+        closeEmbed(target);
+      }
+    });
+
+    target.off('click.aEmbedCancel', '.a-cancel').on('click.aEmbedCancel', '.a-cancel', function(e) {
+      e.preventDefault();
+      closeEmbed(target);
+    });
+
+    function openEmbed(box) {
+      box.removeClass('embed-closed').addClass('embed-open');
+    }
+
+    function closeEmbed(box) {
+      box.removeClass('embed-open').addClass('embed-closed');
+    }
+
+  };
+
 }
 
 window.ame = new aMediaEnhancementsConstructor();

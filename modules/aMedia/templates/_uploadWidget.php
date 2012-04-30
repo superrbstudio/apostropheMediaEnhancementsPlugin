@@ -1,6 +1,6 @@
 <?php $typeLabel = aMediaTools::getBestTypeLabel() ?>
 
-<div class="a-media-library-upload">
+<div class="a-ui a-media-library-upload">
   <?php // include thumbnail template ?>
   <?php include_partial('aMedia/jsTemplates') ?>
   <form class="a-form a-media-library-upload-form" enctype="multipart/form-data" method="POST" action="/admin/media/html5Upload">
@@ -24,10 +24,12 @@
         </div>
       </div>
   </form>
+
 <?php $options = array(url_for('aMedia/getAllTags'), url_for('aMedia/getPopularTags')); ?>
 <?php a_js_call('apostrophe.setTypeaheadUrl(?)', url_for(a_url('taggableComplete', 'complete'))) ?>
 <?php a_js_call('apostrophe.setAllTagsUrl(?)', url_for('aMedia/getAllTags')) ?>
 <?php a_js_call('apostrophe.setPopularTagsUrl(?)', url_for('aMedia/getPopularTags')) ?>
 <?php a_js_call('apostrophe.setAllCategoriesUrl(?)', url_for('aMedia/getAllCategories')) ?>
 <?php a_js_call('$.when(apostrophe.getAllTags()).then($.when(apostrophe.getPopularTags().then($.when(apostrophe.getAllCategories().then(apostrophe.fileUploader())))));') ?>
+
 </div>

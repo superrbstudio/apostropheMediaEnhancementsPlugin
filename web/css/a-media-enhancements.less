@@ -8,44 +8,83 @@
   @a-border-radius(4px);
 }
 
+// MEDIA GENERAL STYLES
 .a-media .a-content {
-width: 100%;
-display: block;
-clear: both;
-  .a-subnav-wrapper.media,
-  .a-media-library
-  {
-    float: left;
-    display: inline;
-    position: relative;
-  }
   .a-media-library
   {
     width: 720px;
   }
-  .a-subnav-wrapper
+}
+
+// MEDIA HEADER
+
+.a-media-header-search
+{
+  display: inline;
+  position: relative;
+  float: right;
+  .a-form-row
   {
-    margin-right: 0;
-    margin-left: 40px;
+    margin: 0;
+  }
+ input.a-html5-search-field
+ {
+  -webkit-appearance: textfield;
+  font-size: 18px;
+  height: 25px;
+  line-height: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #e2e2e2;
+  @a-border-radius(4px);
+  background: #fff;
+  ::-webkit-search-cancel-button { display: none; }
+ }
+ a.a-clear-search
+ {
+  display: inline;
+  position: absolute;
+  right:3px;
+  top:2px;
+ }
+}
+
+// MEDIA SUBNAV
+.a-media-subnav
+{
+  display: inline;
+  position: relative;
+  float: left;
+  clear: none;
+  width: 200px;
+  margin-right: 40px;
+  .a-media-subnav-link-item
+  {
+    display: block;
+    clear: both;
+    @clearfix;
+    margin-bottom: 10px;
+    .a-btn
+    {
+      display: block;
+      float: none;
+      clear: both;
+    }
   }
 }
 
-.a-media-workspace
-{
-  @a-media-box;
-  margin-bottom: 20px;
-  .workspace-open { display: block; }
-  .workspace-hidden { display: none; }
-}
-
+// MEDIA UPLOADER
 .a-media-library-upload
 {
-  width: 100%;
+  @a-media-box;
+  padding:15px;
+  margin-bottom: 20px;
   display: block;
-  position: relative;
-  clear: both;
   @clearfix;
+}
 
+// Start Media Uploader
+.a-media-library-upload
+{
   .a-file-upload-list,
   .a-media-library-upload-inner,
   .a-file-uploader-input,
@@ -56,11 +95,6 @@ clear: both;
     position: relative;
     clear: both;
     @clearfix;
-  }
-
-  .a-media-library-upload-form
-  {
-    padding:15px;
   }
 
   hr.a-hr
@@ -151,10 +185,10 @@ clear: both;
     {
       position: absolute;
       display: block;
-      top:0;
-      bottom:0;
-      right:0;
-      left:0;
+      top:-15px;
+      bottom:-15px;
+      right:-15px;
+      left:-15px;
       opacity:1;
       z-index:100; // in front of the form
       @a-transition(.2s;ease-in-out );
@@ -271,7 +305,6 @@ clear: both;
   }
 }
 
-
 .a-file-upload-preview
 {
     height: 100px;
@@ -281,7 +314,6 @@ clear: both;
     z-index: 199;
 }
 
-
 .a-form .a-form-controls
 {
   display: block;
@@ -289,5 +321,116 @@ clear: both;
   .a-form-submit
   {
     float: right;
+  }
+}
+
+// END Media Uploader
+
+@transition(@properties) {
+  // property time ease
+  -webkit-transition: @properties;
+  -moz-transition: @properties;
+  -o-transition: @properties;
+  transition: @properties;
+}
+
+// Start embed toggle
+.a-media-library-embed-inner
+{
+  @a-media-box;
+  display: block;
+  padding:15px;
+  margin-bottom: 20px;
+  @clearfix;
+}
+
+.a-media-library-embed
+{
+  @clearfix;
+  overflow: hidden;
+  .a-media-library-embed-inner
+  {
+    max-height: 0px;
+    opacity:0;
+    padding-top:0;
+    padding-bottom: 0;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    clear: both;
+    @transition(all .2s ease-in-out);
+    .a-form-field
+    {
+      float: none;
+      display: block;
+      clear: both;
+      textarea
+      {
+        display: block;
+        min-height: 250px;
+      }
+    }
+  }
+  &.embed-open
+  {
+    .a-media-library-embed-inner
+    {
+      opacity:1;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      max-height:2000px;
+    }
+  }
+}
+
+// Media Alert boxes
+@alertColor:@a-button-color;
+
+.a-media-alert
+{
+  display: block;
+  position: relative;
+  clear: both;
+  background-color: lighten(@alertColor, 30%);
+  border: 1px solid lighten(@alertColor, 20%);
+  color: darken(@alertColor, 20%);
+  text-shadow:0px 1px fadeout(#fff, 20%);
+  padding: 7px 10px;
+  @a-border-radius(4px);
+  margin-bottom: 5px;
+  @a-transition;
+  &:hover
+  {
+    @alertColor:darken(@alertColor, 10%);
+    background-color: lighten(@alertColor, 30%);
+    border: 1px solid lighten(@alertColor, 20%);
+    color: darken(@alertColor, 20%);
+  }
+  strong
+  {
+    font-weight: bold;
+  }
+  .a-media-alert-clear
+  {
+    display: block;
+    position: absolute;
+    bottom:0;
+    left:0;
+    right:0px;
+    top:0;
+    i.icon
+    {
+      position: absolute;
+      right:0;
+      top:0;
+      background-image: url('/apostropheMediaEnhancementsPlugin/images/a-media-icon-close.png');
+      background-position: center;
+      opacity:.7;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      text-indent: -9999px;
+      height: 100%;
+      width: 30px;
+    }
   }
 }

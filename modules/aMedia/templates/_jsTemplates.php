@@ -23,7 +23,7 @@
           </a>
           <a class="a-btn icon a-delete alt lite no-label a-upload-delete" href="<%= delete_url %>">
            <span class='icon'></span> Delete
-          </a>          
+          </a>
         </div>
     </div>
 </script>
@@ -86,7 +86,7 @@
                     </ul>
                 </li>
             </ul>
-            
+
             <input type="submit" class="a-btn a-submit a-upload-submit-<%= id %>" />
             <a href="#" class="a-btn icon a-cancel alt a-upload-cancel"><span class="icon"></span>Cancel</a>
         </form>
