@@ -11,6 +11,8 @@
         <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
       </div>
 
+      <ul id="a-file-upload-list" class="a-file-upload-list"></ul>
+
       <div id="div-uploader" class="a-file-uploader a-file-uploader-dragbox">
         <div class="a-file-drag-help-container clearfix">
           <h3 class="a-file-drag-help">Drop 'em here!</h3>

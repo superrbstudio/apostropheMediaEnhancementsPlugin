@@ -29,6 +29,6 @@
     <?php include_partial('aMedia/edit', array('item' => $item, 'form' => $form, 'popularTags' => $popularTags, 'allTags' => $allTags, 'formAction' => url_for(aUrl::addParams("aMedia/edit", array("slug" => $item->getSlug()))))) ?>
   </div>
 
-  <?php include_component('aMedia', 'browser') ?>
+  <?php include_component('aEnhancedMedia', 'browser') ?>
 
 </div>

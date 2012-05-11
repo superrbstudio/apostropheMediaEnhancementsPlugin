@@ -205,7 +205,7 @@ $(document).ready(function() {
         tagName: 'ul',
         className: 'a-file-upload-list',
 
-        widget: null,
+        //widget: null,
         collection: null,
         _MediaItemViews: [],
 
@@ -215,7 +215,7 @@ $(document).ready(function() {
             this.collection.bind('add', this.add);
             this.collection.bind('remove', this.remove);
 
-            this.options.widget.after(this.$el);
+            //this.options.widget.after(this.$el);
         },
 
         render: function() {
@@ -331,6 +331,12 @@ $(document).ready(function() {
             var $selector = (defaults.selector)? $(defaults.selector) : $('.' + defaults.fileUploaderSelector);
             var $uploadList = (defaults.uploadListSelector)? $(defauls.uploadListSelector) : $('.' + defaults.fileListSelector);
 
+            var mediaItems = new MediaItemCollection();
+            var mediaItemsView = new MediaItemCollectionView({
+                    collection: mediaItems,
+                    el: $uploadList
+            });
+
             function combine(fn1, fn2, e, file)
             {
                 if (typeof(fn2) == 'function') {
@@ -346,13 +352,6 @@ $(document).ready(function() {
                 var $this = $(this);
                 var options = $.extend({}, defaults);
                 var fileCount = 0;
-
-                var mediaItems = new MediaItemCollection();
-                var mediaItemsView = new MediaItemCollectionView({
-                    collection: mediaItems,
-                    widget: $this
-                });
-
 
                 // default drag handlers
                 options.dragenter = combine(function(e) {

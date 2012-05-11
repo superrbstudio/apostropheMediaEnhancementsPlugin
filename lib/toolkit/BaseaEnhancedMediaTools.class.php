@@ -133,24 +133,29 @@ class BaseaEnhancedMediaTools extends aMediaTools
      * @param MediaItem $item
      * @return array
      */
-    public function toBackboneArray(aMediaItem $item, $ar = array())
+    public function toBackboneArray(aMediaItem $item = null, $ar = array())
     {
-        $ar['id'] = $item->getId();
-        $ar['viewUrl'] = url_for('a_media_image_show', array('slug' => $item->getSlug()));
-
-        // this is a bad way to construct a URL. Update the routing to make this better.
-        $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
-        $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
-        $ar['tags'] = implode(',', $item->getTags());
-
-        if ($item->type == 'image')
+        if (!is_null($item))
         {
-            $ar['srcUrl'] = $item->getScaledUrl(array('width' => 133, 'height' => 100, 'resizeType' => 's', 'absolute' => true));
-        } else {
-            $ar['srcUrl'] = '';
+          $ar['id'] = $item->getId();
+          $ar['viewUrl'] = url_for('a_media_image_show', array('slug' => $item->getSlug()));
+
+          // this is a bad way to construct a URL. Update the routing to make this better.
+          $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
+          $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
+          $ar['tags'] = implode(',', $item->getTags());
+
+          if ($item->type == 'image')
+          {
+              $ar['srcUrl'] = $item->getScaledUrl(array('width' => 133, 'height' => 100, 'resizeType' => 's', 'absolute' => true));
+          } else {
+              $ar['srcUrl'] = '';
+          }
+
+          $ar = array_merge($ar, $item->toArray());
         }
 
-        return array_merge($ar, $item->toArray());
+        return $ar;
     }
 
     /**
