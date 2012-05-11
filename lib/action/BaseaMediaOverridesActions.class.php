@@ -5,7 +5,7 @@
  * @package    Apostrophe
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class BaseaEnhancedMediaActions extends BaseaMediaActions
+class BaseaMediaOverridesActions extends BaseaMediaActions
 {
 
     /**
@@ -37,7 +37,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
                 {
                     $item = $status['item'];
                     $results = $this->arrayMediaItemResponse($item, 'success');
-                    
+
                     // remove the temp upload
                     unlink($file);
                 }
@@ -71,7 +71,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
 
         if ($request->hasParameter('media_item'))
         {
-            $params = $request->getParameter('media_item');          
+            $params = $request->getParameter('media_item');
 
             if (($item = aEnhancedMediaTools::getInstance()->editItem($item, $params)) !== false)
             {
@@ -80,7 +80,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
             else
             {
                 $status = 'failed';
-            }                    
+            }
         }
 
         if ($request->isXmlHttpRequest())
