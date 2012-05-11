@@ -13,8 +13,8 @@ class BaseaEnhancedMediaTools extends aMediaTools
      */
     static public function getInstance()
     {
-        $class = sfConfig::get('app_aMedia_enhanced_tools_class');
-        $options = sfConfig::get('app_aMedia_enhanced_tools_options');
+        $class = sfConfig::get('app_aMedia_enhanced_tools_class', 'aEnhancedMediaTools');
+        $options = sfConfig::get('app_aMedia_enhanced_tools_options', array());
 
         return new $class($options);
     }
@@ -121,7 +121,7 @@ class BaseaEnhancedMediaTools extends aMediaTools
         {
             return $path;
         }
-        
+
         return false;
     }
 
@@ -171,7 +171,7 @@ class BaseaEnhancedMediaTools extends aMediaTools
         if ($form->isValid())
         {
             $form->save();
-            
+
             return $form->getObject();
         }
 

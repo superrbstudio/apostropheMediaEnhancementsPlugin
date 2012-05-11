@@ -20,7 +20,7 @@
 
         var defaults = $.extend({
             "name": "aFile",
-            "url": "/admin/media/html5Upload",
+            "url": "/admin/aEnhancedMedia/html5Upload",
             "maxAjaxUploads": 1,
             "hoverClass": 'drag-over',
 
@@ -99,7 +99,7 @@
 
                     frCall(defaults.drop(event));
                     handleFiles(event.originalEvent.dataTransfer.files);
-                    
+
                     return false;
                 });
             }
@@ -109,11 +109,11 @@
             function handleFiles(files, e)
             {
                 var requests = [];
-                
+
                 for (var i = 0; i < files.length; i++) {
 
                     var file = files[i];
-                    
+
                     if (file.size > 0) {
                         frCall(defaults.beforeHandle, e, file);
                         requests.push(upload(file));
@@ -146,7 +146,7 @@
 
                 return false;
             }
-            
+
             $input.bind("dragenter.aUploader", function(event) {
                 return cancelEvent(event);
             });
@@ -188,12 +188,12 @@
                         deferred.resolve();
                     }
                 }
-                
+
                 xmlHttpRequest.upload.addEventListener("progress", function(event) { frCall(defaults.ajaxProgress, event, file); }, false);
                 xmlHttpRequest.upload.addEventListener("load", function(event) { frCall(defaults.ajaxTransferLoad, event, file); }, false);
                 xmlHttpRequest.upload.addEventListener("error", function(event) { frCall(defaults.ajaxTransferFailed, event, file); }, false);
                 xmlHttpRequest.upload.addEventListener("abort", function(event) { frCall(defaults.ajaxTransferCanceled, event, file); }, false);
-                
+
                 if (window.FileReader) { // Firefox and Chrome
                     var fileReader = new FileReader;
 

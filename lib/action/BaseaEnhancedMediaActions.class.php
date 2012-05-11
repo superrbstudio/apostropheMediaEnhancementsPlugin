@@ -5,7 +5,7 @@
  * @package    Apostrophe
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class BaseaMediaOverridesActions extends BaseaMediaActions
+class BaseaEnhancedMediaActions extends BaseaMediaActions
 {
 
     /**

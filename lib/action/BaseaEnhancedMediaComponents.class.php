@@ -5,7 +5,7 @@
  * @package    Apostrophe
  * @author     P'unk Avenue <apostrophe@punkave.com>
  */
-class BaseaMediaOverridesComponents extends BaseaMediaComponents
+class BaseaEnhancedMediaComponents extends BaseaMediaComponents
 {
 
   public function executeBrowser($request)
