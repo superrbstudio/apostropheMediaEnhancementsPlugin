@@ -36,5 +36,5 @@
   </div>
 </div>
 
-<?php a_js_call('ame.aMediaEmbed();') ?>
+<?php a_js_call('apostrophe.aMediaToggleEmbed();') ?>
 <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a-media-video-embed', 'title' => (isset($search) ? $search : '<object>...</object>'))) ?>

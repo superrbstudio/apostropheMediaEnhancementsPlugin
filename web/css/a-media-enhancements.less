@@ -1,10 +1,12 @@
 @import 'a-helpers';
 
+@media-box-background:#F2F2F2;
+
 @a-media-box
 {
   display: block;
-  background-color: #F2F2F2;
-  border: 1px solid #e2e2e2;
+  background-color: @media-box-background;
+  border: 1px solid darken(@media-box-background, 5%);
   @a-border-radius(4px);
 }
 
@@ -102,19 +104,19 @@
     margin:15px 0;
   }
 
-  .a-media-library-upload-form
+  // File Uploaders
+  .a-file-uploader-input-wrapper,
+  .a-file-uploader-dragbox
   {
-    // keep this over the drag div
-    z-index: 50;
+    display: inline;
+    position: relative;
+    float: left;
   }
 
   // file uploader (Input)
   .a-file-uploader-input-wrapper
   {
-    display: block;
-    position: relative;
-    clear: both;
-    @clearfix;
+    width: 23%;
     &:hover
     {
       h3.a-file-uploader-input-overlay
@@ -127,18 +129,21 @@
       }
     }
     input.a-file-uploader-input,
-    h3.a-file-uploader-input-overlay
+    .a-file-upload-btn
     {
-      height: 40px;
-      line-height: 40px;
-      width: 100%;
-      span.a-media-upload-btn
+      height: 35px;
+      line-height: 35px;
+      font-size: 20px;
+    }
+    .a-file-upload-btn
+    {
+      display: block;
+      float: none;
+      clear: both;
+      padding-left: 24px;
+      .icon
       {
-        padding:5px 7px;
-        background-color: #e6e6e6;
-        border: 1px solid #ccc;
-        @a-border-radius(3px);
-        @a-transition;
+        left:2px;
       }
     }
     input.a-file-uploader-input
@@ -156,44 +161,25 @@
   }
 
   // Drag box
-  div.a-file-uploader-dragbox
+  .a-file-uploader-dragbox
   {
-    // should show up on drag in
-    display: none;
+    width: 72%;
+    margin-left: 4%;
+    float: right;
+    height: 35px;
+    line-height: 35px;
+    background-color: lighten(@media-box-background, 2%);
+    border: 1px dashed fadeout(#ccc, 50%);
     @a-border-radius(4px);
-    .a-file-drag-help-container
+    @a-transition(.2s;ease-in-out );
+    .a-file-drag-help
     {
-      // reestablishes the height of the absolutely positioned
-      // dragbox, and allows the help text to vertically center
-      position: relative;
-      display: block;
-      height: 100%;
-      .a-file-drag-help
-      {
-        // help text
-        position: relative;
-        font-size: 34px;
-        height: 34px;
-        top:50%;
-        margin-top: -16px;
-        color: fadeout(#333, 20%);
-        font-weight: bold !important;
-        text-align: center;
-      }
+      line-height: 35px;
+      text-align: center;
     }
     &.drag-over
     {
-      position: absolute;
-      display: block;
-      top:-15px;
-      bottom:-15px;
-      right:-15px;
-      left:-15px;
-      opacity:1;
-      z-index:100; // in front of the form
-      @a-transition(.2s;ease-in-out );
-      background-color: fadeout(#ccc, 50%);
-      @a-box-shadow(inset 0px 0px 20px fadeout(#000, 70%));
+      background-color: lighten(@media-box-background, 10%);
     }
   }
 
@@ -201,7 +187,6 @@
 
   .a-file-upload-list
   {
-    margin-top: 20px;
     z-index:50;
   }
 
@@ -214,7 +199,7 @@
     clear: none;
     @clearfix;
     width: 22.05%;
-    margin-bottom: 10px;
+    margin-top: 10px;
     margin-right: 3.8%;
     opacity:.5;
     @a-transition(.5s);
@@ -285,19 +270,16 @@
       left:-7px;
       z-index:100;
     }
-    .a-controls
-    {
-      display: none;
-    }
   }
 
   .a-upload-form-container
   {
     padding:7px;
     padding-top: 120px;
-    width:400px;
+    width:350px;
     background-color: #fff;
     @a-border-radius(4px);
+    @a-box-shadow(0px 0px 10px fadeout(#000, 85%));
     .a-btn
     {
       margin-left: 2px;
@@ -316,8 +298,12 @@
 
 .a-form .a-form-controls
 {
-  display: block;
+  display: none;
   clear: both;
+  &.is-shown
+  {
+    display: block;
+  }
   .a-form-submit
   {
     float: right;

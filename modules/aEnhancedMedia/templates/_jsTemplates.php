@@ -31,27 +31,26 @@
 <script id="a-upload-edit-form" type="text/template">
     <div class="a-upload-form-container">
         <h4>Editing <strong><%= title %></strong></h4>
-        <form class="a-upload-edit-form">
-            <ul>
-                <li class="a-form-row">
+        <form class="a-ui a-media-edit-form a-upload-edit-form">
+                <div class="a-form-row title">
                   <label>Title</label>
                   <div class="a-form-field">
-                    <input type="input" name="media_item[title]" value="<%= title %>" />
+                    <input type="text" name="media_item[title]" value="<%= title %>" />
                   </div>
-                </li>
-                <li class="a-form-row">
+                </div>
+                <div class="a-form-row description">
                   <label>Description</label>
                   <div class="a-form-field">
                     <textarea name="media_item[description]"><%= description %></textarea>
-                    </div>
-                </li>
-                <li class="a-form-row">
+                  </div>
+                </div>
+                <div class="a-form-row credit">
                   <label>Credit</label>
                   <div class="a-form-field">
-                  <input type="input" name="media_item[credit]" value="<%= credit %>" />
+                    <input type="text" name="media_item[credit]" value="<%= credit %>" />
                   </div>
-                </li>
-                <li class="a-form-row">
+                </div>
+                <div class="a-form-row categories">
                     <label>Categories:</label>
                     <div class="a-form-field">
                       <select multiple="multiple" name="media_item[categories_list][]">
@@ -62,33 +61,33 @@
                           <% }); %>
                       </select>
                     </div>
-                </li>
-                <li class="a-form-row">
+                </div>
+                <div class="a-form-row tags">
                     <label>Tags</label>
                     <div class="a-form-field">
-                    <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
+                      <input type="input" class="a-upload-tags-input" name="media_item[tags]" value="<%= tags %>" />
                     </div>
-                </li>
-                <li class="a-form-row-radio">
-                    <ul>
-                        <li class="a-form-row">
-                          <label>Public</label>
-                          <div class="a-form-field">
-                          <input type="radio" name="media_item[view_is_secure]" <% if (!obj.view_is_secure) { %> checked="checked" <% } %> value="0" />
-                          </div>
+                </div>
+                <div class="a-form-row permissions">
+                  <label for="media_item[view_is_secure]">Permissions</label>
+                  <div class="a-form-field">
+                    <ul class="radio_list">
+                        <li>
+                          <input type="radio" name="media_item[view_is_secure]" id="a_media_item_330_view_is_secure_0" <% if (!obj.view_is_secure) { %> checked="checked" <% } %> value="0" >&nbsp;<label for="a_media_item_330_view_is_secure_0">Public</label>
                         </li>
-                        <li class="a-form-row">
-                            <label>Hidden</label>
-                            <div class="a-form-field">
-                            <input type="radio" name="media_item[view_is_secure]" <% if (obj.view_is_secure) { %> checked="checked" <% } %> value="1" />
-                            </div>
+                        <li>
+                            <input type="radio" name="media_item[view_is_secure]" id="a_media_item_330_view_is_secure_1" <% if (obj.view_is_secure) { %> checked="checked" <% } %> value="1" >&nbsp;<label for="a_media_item_330_view_is_secure_1">Hidden</label>
                         </li>
                     </ul>
-                </li>
+                  </div>
+                  <div class="a-help">
+                  Permissions: Hidden Photos can be used in photo slots, but are not displayed in the Media section.
+                  </div>
+                </div>
+            <ul class="a-ui a-controls a-align-left bottom">
+              <li><input type="submit" class="a-btn a-submit a-upload-submit-<%= id %>" /></li>
+              <li><a href="#" class="a-btn icon a-cancel alt a-upload-cancel"><span class="icon"></span>Cancel</a></li>
             </ul>
-
-            <input type="submit" class="a-btn a-submit a-upload-submit-<%= id %>" />
-            <a href="#" class="a-btn icon a-cancel alt a-upload-cancel"><span class="icon"></span>Cancel</a>
         </form>
     </div>
 </script>

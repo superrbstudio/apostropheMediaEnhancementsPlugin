@@ -141,8 +141,8 @@ class BaseaEnhancedMediaTools extends aMediaTools
           $ar['viewUrl'] = url_for('a_media_image_show', array('slug' => $item->getSlug()));
 
           // this is a bad way to construct a URL. Update the routing to make this better.
-          $ar['editUrl'] = url_for("aMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
-          $ar['deleteUrl'] = url_for("aMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
+          $ar['editUrl'] = url_for("aEnhancedMedia/html5Edit?" . http_build_query(array("slug" => $item->getSlug())));
+          $ar['deleteUrl'] = url_for("aEnhancedMedia/delete?" . http_build_query(array("slug" => $item->getSlug())));
           $ar['tags'] = implode(',', $item->getTags());
 
           if ($item->type == 'image')
