@@ -9,6 +9,8 @@
       <input type="search" name="search" placeholder="Search Media" value="<?php echo htmlspecialchars($sf_params->get('search')) ?>" class="a-html5-search-field" id="a-search-media-field"/>
       <?php if (isset($search)): ?>
         <?php echo link_to(__('<span class="icon"></span>Clear Search', null, 'apostrophe'), aUrl::addParams($current, array('search' => '')), array('class' => 'a-ui a-btn icon alt no-bg a-close no-label a-clear-search', 'id' => 'a-media-search-remove', 'title' => __('Clear Search', null, 'apostrophe'), )) ?>
+      <?php else: ?>
+        <input type="image" src="<?php echo image_path('/apostrophePlugin/images/a-special-blank.gif') ?>" class="submit a-search-submit" value="Search Pages" alt="Search" title="Search"/>
       <?php endif ?>
     </div>
   </form>

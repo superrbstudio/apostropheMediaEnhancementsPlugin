@@ -24,17 +24,17 @@
 <?php // of the existing overrides of _browser in our sites and those of others. ?>
 
 <?php include_partial('aMedia/browserBefore') ?>
-
-<div class="a-ui a-media-subnav">
+<div class="a-ui a-subnav-wrapper media clearfix">
+  <div class="a-subnav-inner">
     <div class="a-subnav-section clearfix links">
       <?php if ($page->admin): ?>
       <ul class="a-media-subnav-links">
         <?php if (aMediaTools::getOption('linked_accounts') && aMediaTools::userHasAdminPrivilege()): ?>
-          <li class="a-media-subnav-link-item"><a href="<?php echo a_url('aMedia', 'link') ?>" class="a-btn icon alt a-users big a-media-link-accounts"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a></li>
+          <li class="a-media-subnav-link-item"><a href="<?php echo a_url('aMedia', 'link') ?>" class="a-btn icon alt a-users big lite a-media-link-accounts"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a></li>
         <?php endif ?>
         <?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
-          <li class="a-media-subnav-link-item"><a href="<?php echo a_url('aMedia', 'searchServices') ?>" class="a-btn icon alt big a-search"><span class="icon"></span><?php echo a_('Search Services') ?></a></li>
-          <li class="a-media-subnav-link-item"><a href="#" id="a-media-embed-link" class="a-btn icon a-code alt a-media-embed-link big"><span class="icon"></span><?php echo a_('Paste embed code') ?></a></li>
+          <li class="a-media-subnav-link-item"><a href="<?php echo a_url('aMedia', 'searchServices') ?>" class="a-btn icon alt big lite a-search"><span class="icon"></span><?php echo a_('Search Services') ?></a></li>
+          <li class="a-media-subnav-link-item"><a href="#" id="a-media-embed-link" class="a-btn icon a-code alt a-media-embed-link lite big"><span class="icon"></span><?php echo a_('Paste embed code') ?></a></li>
         <?php endif ?>
       <?php endif ?>
       </ul>
@@ -106,8 +106,8 @@
       </ul>
     </div>
     <?php endif ?>
+  </div>
 </div>
-
 <?php include_partial('aMedia/browserAfter') ?>
 
 <?php a_js_call('apostrophe.allTagsToggle(?)', array('selector' => '.a-tag-sidebar-title.all-tags')) ?>

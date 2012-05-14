@@ -41,24 +41,25 @@
   background: #fff;
   ::-webkit-search-cancel-button { display: none; }
  }
- a.a-clear-search
+ a.a-clear-search,
+ input.a-search-submit
  {
   display: inline;
   position: absolute;
   right:3px;
   top:2px;
  }
+ input.a-search-submit
+ {
+  height: 20px;
+  width: 20px;
+  background:url(/apostrophePlugin/images/a-search-submit.png) no-repeat -5px -19px;
+ }
 }
 
 // MEDIA SUBNAV
-.a-media-subnav
+.a-media-subnav-links
 {
-  display: inline;
-  position: relative;
-  float: left;
-  clear: none;
-  width: 200px;
-  margin-right: 40px;
   .a-media-subnav-link-item
   {
     display: block;
@@ -108,15 +109,15 @@
   .a-file-uploader-input-wrapper,
   .a-file-uploader-dragbox
   {
-    display: inline;
+    display: block;
     position: relative;
-    float: left;
+    clear: both;
   }
 
   // file uploader (Input)
   .a-file-uploader-input-wrapper
   {
-    width: 23%;
+    float: left;
     &:hover
     {
       h3.a-file-uploader-input-overlay
@@ -131,16 +132,15 @@
     input.a-file-uploader-input,
     .a-file-upload-btn
     {
-      height: 35px;
-      line-height: 35px;
+      height: 30px;
+      line-height: 30px;
       font-size: 20px;
     }
     .a-file-upload-btn
     {
-      display: block;
-      float: none;
-      clear: both;
       padding-left: 24px;
+      padding-right: 7px;
+      margin-right: 5px;
       .icon
       {
         left:2px;
@@ -150,6 +150,9 @@
     {
       position: absolute;
       top:0;
+      right:0;
+      bottom:0;
+      left:0;
       opacity:0;
       // hides the "button" on the input
       text-indent: -9999px;
@@ -163,11 +166,10 @@
   // Drag box
   .a-file-uploader-dragbox
   {
-    width: 72%;
-    margin-left: 4%;
-    float: right;
-    height: 35px;
-    line-height: 35px;
+    height: 32px;
+    line-height: 30px;
+    font-size: 20px;
+    padding:6px;
     background-color: lighten(@media-box-background, 2%);
     border: 1px dashed fadeout(#ccc, 50%);
     @a-border-radius(4px);

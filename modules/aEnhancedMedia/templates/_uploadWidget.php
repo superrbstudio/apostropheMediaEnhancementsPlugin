@@ -6,15 +6,14 @@
   <form class="a-form a-media-library-upload-form" enctype="multipart/form-data" method="POST" action="/admin/aEnhancedMedia/html5Upload">
 
       <?php /*<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo ini_get('upload_max_filesize') ?>" /> */ ?>
-      <div class="a-file-uploader-input-wrapper">
-        <div class="a-btn a-submit big icon a-add a-file-upload-btn">
-          <span class="icon"></span> Upload <?php echo strtolower($typeLabel) ?>
-          <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
-        </div>
-      </div>
-
       <div id="div-uploader" class="a-file-uploader a-file-uploader-dragbox">
-          <h3 class="a-file-drag-help">&hellip;or drag <?php echo strtolower($typeLabel) ?> here</h3>
+        <div class="a-file-uploader-input-wrapper">
+          <div class="a-btn a-submit big icon a-add a-file-upload-btn">
+            <span class="icon"></span> Upload
+            <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
+          </div>
+          or drag <?php echo strtolower($typeLabel) ?> here
+        </div>
       </div>
 
       <ul id="a-file-upload-list" class="a-file-upload-list"></ul>
