@@ -12,7 +12,7 @@
             <span class="icon"></span> Upload
             <input id="input-uploader" class="a-file-uploader a-file-uploader-input" type="file" name="aFile[]" multiple />
           </div>
-          or drag <?php echo strtolower($typeLabel) ?> here
+          <span class="a-file-drag-description">or drag <?php echo strtolower($typeLabel) ?> here</span>
         </div>
         <div class="a-file-uploader-embed clearfix">
           <a href="#" id="a-media-embed-link" class="a-btn a-code alt a-media-embed-link lite"><?php echo a_('Paste an embed code') ?></a>

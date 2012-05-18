@@ -32,6 +32,10 @@
 
   <?php include_partial('aEnhancedMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 
+  <?php if ($uploadAllowed): ?>
+    <?php include_partial('aEnhancedMedia/uploadMultipleWrapper', array('form' => new aMediaUploadMultipleForm())) ?>
+  <?php endif ?>
+
   <?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
       <?php if (aMediaTools::isSelecting()): ?>
         <div class="a-media-selection">

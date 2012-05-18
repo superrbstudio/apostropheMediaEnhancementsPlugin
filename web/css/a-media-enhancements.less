@@ -22,6 +22,7 @@
     }
   }
 }
+
 // MEDIA HEADER
 .a-media .a-admin-header .a-media-service-controls
 {
@@ -101,7 +102,8 @@
 }
 
 // MEDIA UPLOADER
-.a-media-library-upload
+.a-media-library-upload,
+.a-media-library-upload-fallback
 {
   @a-media-box;
   padding:15px;
@@ -461,3 +463,39 @@
     }
   }
 }
+
+// older browser fallback
+
+.a-media-library-upload-fallback
+{
+  display: none;
+  .a-media-add-subheading
+  {
+    min-height:0;
+    float: none;
+    display: block;
+    width: auto;
+    border-right: none;
+  }
+}
+
+.a-no-filereader
+{
+  .a-media-library-upload
+  {
+    // display: none;
+  }
+  .a-media-library-upload-fallback
+  {
+    display: block;
+  }
+}
+
+.a-no-draganddrop
+{
+  .a-file-drag-description
+  {
+    display: none;
+  }
+}
+

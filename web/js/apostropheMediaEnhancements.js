@@ -27,7 +27,7 @@ $(document).ready(function() {
         setDone: function(data) {
             // set the new params
             this.updateValues(data);
-            this.get('view').setDone();
+            this.get('view').renderFile().setDone();
         },
 
         updateValues: function(data) {
@@ -45,6 +45,7 @@ $(document).ready(function() {
         className: 'a-file-upload-thumbnail',
         itemTemplate: _.template($('#a-tmpl-media-thumb').text()),
         imageTemplate: _.template($('#a-tmpl-media-thumb-image').text()),
+        fileTemplate: _.template($('#a-tmpl-media-thumb-file').text()),
         titleTemplate: _.template($('#a-tmpl-media-upload-title').text()),
         editTemplate:  _.template($('#a-upload-edit-form').text()),
 
@@ -63,11 +64,19 @@ $(document).ready(function() {
             this.model.set('view', self);
         },
 
-        render: function() {
+        renderFile: function() {
             var params = {};
             params.media_type = this.model.get('mediaType');
 
-            this.$el.html(this.itemTemplate(params));
+            // Probably a better way to do this,
+            // since we're checking the type elsewhere
+            // Images get a thumbnail, other files get a text description or icon
+
+            if (this.model.get('type') == 'image') {
+              return this;
+            };
+
+            this.$el.html(this.fileTemplate(params));
 
             return this;
         },
@@ -460,6 +469,36 @@ $(document).ready(function() {
             });
         };
 
+        apostrophe.checkUploadCapabilities = function() {
+          // Checks the user's browser for the following features:
+          // file/multiple file upload
+          // drag and drop file uploading
+          var $target = $('html');
+
+          function testfilereader() {
+              aLog(window.File);
+              aLog(window.FileReader);
+              aLog(window.FormData);
+              return !!(window.File && window.FileReader && window.FormData);
+          };
+
+          function testdraganddrop() {
+              var div = document.createElement('div');
+              return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+          };
+
+          if (!testfilereader()) {
+            $target.addClass('a-no-filereader');
+          };
+
+          if (!testdraganddrop()) {
+            $target.addClass('a-no-draganddrop');
+          };
+
+        };
+
+        apostrophe.checkUploadCapabilities();
+
         apostrophe.aMediaToggleEmbed = function() {
           var $toggle = $('#a-media-embed-link');
           var $target = $('#a-media-embed-target');
@@ -493,3 +532,4 @@ $(document).ready(function() {
 
     }
 });
+

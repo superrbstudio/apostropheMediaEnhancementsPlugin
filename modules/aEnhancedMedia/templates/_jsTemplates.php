@@ -1,11 +1,17 @@
 <script id="a-tmpl-media-thumb" type="text/template">
-    <li class="a-file-upload-thumbnail <%= media_type %>">
+    <li class="a-file-upload-thumbnail">
     </li>
 </script>
 
 <script id="a-tmpl-media-thumb-image" type="text/template">
     <div class="a-file-upload-image-item">
       <img class="a-file-upload-image" src="<%= image_data %>" />
+    </div>
+</script>
+
+<script id="a-tmpl-media-thumb-file" type="text/template">
+    <div class="a-file-upload-file-item <%= media_type %>">
+      <h1><%= media_type %></h1>
     </div>
 </script>
 
