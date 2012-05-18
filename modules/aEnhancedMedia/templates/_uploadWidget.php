@@ -27,9 +27,25 @@
           <input class="a-btn big a-submit" type="submit" value="I'm done!" />
         </div>
       </div>
-
   </form>
 
+
+<script type="text/javascript">
+
+  <?php
+
+    $stem = sfContext::getInstance()->getRequest()->getRelativeUrlRoot();
+    // We generally don't add slashes to directories, but CKEditor does
+    $basePath = $stem . '/apostropheCkEditorPlugin/js/ckeditor/';
+    $ckeditorPath = $basePath;
+
+  ?>
+  window.CKEDITOR_BASEPATH = '<?php echo $ckeditorPath ?>';
+
+  if (!window.CKEDITOR) {
+    $.getScript('<?php echo $ckeditorPath ?>ckeditor.js');
+  }
+</script>
 <?php $options = array(url_for('aEnhancedMedia/getAllTags'), url_for('aEnhancedMedia/getPopularTags')); ?>
 <?php a_js_call('apostrophe.setTypeaheadUrl(?)', url_for(a_url('taggableComplete', 'complete'))) ?>
 <?php a_js_call('apostrophe.setAllTagsUrl(?)', url_for('aEnhancedMedia/getAllTags')) ?>

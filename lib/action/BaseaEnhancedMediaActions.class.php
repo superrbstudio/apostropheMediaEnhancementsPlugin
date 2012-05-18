@@ -7,7 +7,6 @@
  */
 class BaseaEnhancedMediaActions extends BaseaMediaActions
 {
-
     /**
      *
      * This action serves as a target for our advanced media uploader

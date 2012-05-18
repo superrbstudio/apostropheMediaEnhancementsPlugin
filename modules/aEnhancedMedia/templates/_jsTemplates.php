@@ -41,7 +41,7 @@
                 <div class="a-form-row description">
                   <label>Description</label>
                   <div class="a-form-field">
-                    <textarea name="media_item[description]"><%= description %></textarea>
+                    <textarea id="media_item_description_<%= id %>" name="media_item[description]"><%= description %></textarea>
                   </div>
                 </div>
                 <div class="a-form-row credit">

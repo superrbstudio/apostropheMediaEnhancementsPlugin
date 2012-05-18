@@ -48,6 +48,9 @@ $(document).ready(function() {
         titleTemplate: _.template($('#a-tmpl-media-upload-title').text()),
         editTemplate:  _.template($('#a-upload-edit-form').text()),
 
+
+        editor: null,
+
         events: {
             'click .a-upload-edit':          'edit',
             'click .a-upload-delete':        'del',
@@ -127,7 +130,20 @@ $(document).ready(function() {
 
             this.$el.addClass('editing');
 
+            this.destroyEditor();
+            this.editor = window.CKEDITOR.replace('media_item_description_' + this.model.get('id'));
+
             return false;
+        },
+
+        destroyEditor: function() {
+            if (this.editor) {
+                this.editor.destroy();
+            }
+        },
+
+        getEditorValues: function() {
+            return this.editor.getData();
         },
 
         hideForm: function(event) {
@@ -170,6 +186,10 @@ $(document).ready(function() {
             var $target = $(event.target);
             var formData = $target.serialize();
             var postUrl = this.model.get('editUrl');
+            this.model.set({
+                'description': me.getEditorValues()
+            });
+            this.destroyEditor();
 
             $.ajax({
                 url: postUrl,
