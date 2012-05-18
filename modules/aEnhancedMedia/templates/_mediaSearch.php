@@ -1,6 +1,6 @@
 <?php use_helper('a') ?>
 
-<div class="a-media-header-search">
+<div class="a-media-search clearfix">
   <form action="<?php echo url_for(aUrl::addParams($current, array("search" => false))) ?>" method="get">
     <div class="a-form-row"> <?php // div is for page validation ?>
       <label for="a-search-media-field" style="display:none;">Search</label><?php // label for accessibility ?>

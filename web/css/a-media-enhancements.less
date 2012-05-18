@@ -14,24 +14,48 @@
 .a-media .a-content {
   .a-media-library
   {
-    width: 720px;
+    display: block;
+    clear: both;
+    .a-area-body
+    {
+      width: 100%;
+    }
+  }
+}
+// MEDIA HEADER
+.a-media .a-admin-header .a-media-service-controls
+{
+  margin-top: 6px;
+  .a-media-link-accounts
+  {
+    margin-top: 0;
+  }
+  .a-media-control-separator
+  {
+    width: 1px;
+    min-height:21px;
+    height: 100%;
+    margin:0 10px;
+    background-color: #eee;
   }
 }
 
-// MEDIA HEADER
 
-.a-media-header-search
+// MEDIA SEARCH
+
+.a-media-search
 {
-  display: inline;
-  position: relative;
-  float: right;
+  display: block;
+  clear: both;
   .a-form-row
   {
     margin: 0;
   }
  input.a-html5-search-field
  {
-  -webkit-appearance: textfield;
+  display: block;
+  width: 100%;
+  -webkit-appearance: none;
   font-size: 18px;
   height: 25px;
   line-height: 25px;
@@ -51,8 +75,8 @@
  }
  input.a-search-submit
  {
-  height: 20px;
-  width: 20px;
+  height: 22px;
+  width: 22px;
   background:url(/apostrophePlugin/images/a-search-submit.png) no-repeat -5px -19px;
  }
 }
@@ -65,12 +89,13 @@
     display: block;
     clear: both;
     @clearfix;
-    margin-bottom: 10px;
+    margin: 5px 0;
     .a-btn
     {
       display: block;
       float: none;
       clear: both;
+      font-size: 15px;
     }
   }
 }
@@ -178,6 +203,18 @@
     {
       line-height: 35px;
       text-align: center;
+    }
+    .a-file-uploader-embed
+    {
+      float: right;
+      display: block;
+      height:100%;
+      .a-media-embed-link
+      {
+        margin-top: 6px;
+        height: 20px;
+        line-height: 20px;
+      }
     }
     &.drag-over
     {

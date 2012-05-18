@@ -26,20 +26,9 @@
 <?php include_partial('aMedia/browserBefore') ?>
 <div class="a-ui a-subnav-wrapper media clearfix">
   <div class="a-subnav-inner">
-    <div class="a-subnav-section clearfix links">
-      <?php if ($page->admin): ?>
-      <ul class="a-media-subnav-links">
-        <?php if (aMediaTools::getOption('linked_accounts') && aMediaTools::userHasAdminPrivilege()): ?>
-          <li class="a-media-subnav-link-item"><a href="<?php echo a_url('aMedia', 'link') ?>" class="a-btn icon alt a-users big lite a-media-link-accounts"><span class="icon"></span><?php echo a_('Linked Accounts') ?></a></li>
-        <?php endif ?>
-        <?php if (aMediaTools::userHasUploadPrivilege() && ($uploadAllowed || $embedAllowed)): ?>
-          <li class="a-media-subnav-link-item"><a href="<?php echo a_url('aMedia', 'searchServices') ?>" class="a-btn icon alt big lite a-search"><span class="icon"></span><?php echo a_('Search Services') ?></a></li>
-          <li class="a-media-subnav-link-item"><a href="#" id="a-media-embed-link" class="a-btn icon a-code alt a-media-embed-link lite big"><span class="icon"></span><?php echo a_('Paste embed code') ?></a></li>
-        <?php endif ?>
-      <?php endif ?>
-      </ul>
+    <div class="a-subnav-section clearfix search">
+      <?php include_component('aEnhancedMedia', 'mediaSearch') ?>
     </div>
-
     <?php if ((!aMediaTools::getType()) || (substr(aMediaTools::getType(), 0, 1) === '_')): ?>
       <hr class="a-hr" />
       <div class='a-subnav-section types'>

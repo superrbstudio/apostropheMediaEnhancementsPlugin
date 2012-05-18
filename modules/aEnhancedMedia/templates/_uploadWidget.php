@@ -14,6 +14,9 @@
           </div>
           or drag <?php echo strtolower($typeLabel) ?> here
         </div>
+        <div class="a-file-uploader-embed clearfix">
+          <a href="#" id="a-media-embed-link" class="a-btn a-code alt a-media-embed-link lite"><?php echo a_('Paste an embed code') ?></a>
+        </div>
       </div>
 
       <ul id="a-file-upload-list" class="a-file-upload-list"></ul>
