@@ -30,8 +30,10 @@
 
 <div class="a-media-library clearfix">
 
+  <?php // This is the enhanced form ?>
   <?php include_partial('aEnhancedMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 
+  <?php // This is the old form. This should be used for IE ?>
   <?php if ($uploadAllowed): ?>
     <?php include_partial('aEnhancedMedia/uploadMultipleWrapper', array('form' => new aMediaUploadMultipleForm())) ?>
   <?php endif ?>
