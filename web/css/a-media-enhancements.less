@@ -10,6 +10,12 @@
   @a-border-radius(4px);
 }
 
+@box-sizing(@sizing:border-box;) {
+  -moz-box-sizing: @sizing;
+  -webkit-box-sizing: @sizing;
+  box-sizing: @sizing;
+}
+
 // MEDIA GENERAL STYLES
 .a-media .a-content {
   .a-media-library
@@ -139,6 +145,7 @@
     display: block;
     position: relative;
     clear: both;
+    @box-sizing(content-box);
   }
 
   // file uploader (Input)
@@ -415,6 +422,7 @@
 
 .a-media-alert
 {
+  @box-sizing(content-box);
   display: block;
   position: relative;
   clear: both;
@@ -422,7 +430,9 @@
   border: 1px solid lighten(@alertColor, 20%);
   color: darken(@alertColor, 20%);
   text-shadow:0px 1px fadeout(#fff, 20%);
-  padding: 7px 10px;
+  padding: 0 10px;
+  height: 35px;
+  line-height: 35px;
   @a-border-radius(4px);
   margin-bottom: 5px;
   @a-transition;
@@ -432,6 +442,11 @@
     background-color: lighten(@alertColor, 30%);
     border: 1px solid lighten(@alertColor, 20%);
     color: darken(@alertColor, 20%);
+  }
+  h4
+  {
+    margin: 0;
+    padding: 0;
   }
   strong
   {
@@ -483,7 +498,7 @@
 {
   .a-media-library-upload
   {
-    // display: none;
+    display: none;
   }
   .a-media-library-upload-fallback
   {
