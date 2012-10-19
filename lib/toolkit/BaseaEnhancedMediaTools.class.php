@@ -182,4 +182,12 @@ class BaseaEnhancedMediaTools extends aMediaTools
 
         return false;
     }
+  /**
+   * DOCUMENT ME
+   * @return mixed
+   */
+  static public function isEditMultiple()
+  {
+    return aMediaTools::getAttribute("editMultiple");
+  }
 }

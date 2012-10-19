@@ -5,6 +5,7 @@
   $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
   $results = isset($results) ? $sf_data->getRaw('results') : null;
+  $batchEdit = sfConfig::get('app_aMedia_batch_edit') ? sfConfig::get('app_aMedia_batch_edit') : false;
 ?>
 
 <?php use_helper('a') ?>
@@ -12,6 +13,7 @@
 <?php $type = aMediaTools::getAttribute('type') ?>
 <?php $selecting = aMediaTools::isSelecting() ?>
 <?php $multipleStyle = (($type === 'image') || (aMediaTools::isMultiple())) ?>
+<?php $editMultiple = aMediaTools::getAttribute('editMultiple', null) ?>
 
 <?php $body_class = 'a-media a-media-index'?>
 <?php $body_class .= ($page->admin) ? ' aMediaAdmin':'' ?>
@@ -29,7 +31,21 @@
 <?php end_slot() ?>
 
 <div class="a-media-library clearfix">
-
+<?php if ($batchEdit): ?>
+    <?php echo link_to('<span class="icon"></span> Batch Edit',
+      'aEnhancedMedia/select',
+      array(
+       'query_string' =>
+         http_build_query(
+           array_merge(
+             array(
+             "multiple" => true,
+             "editMultiple" => true,
+             "label" => 'Select the images you would like to edit',
+             "after" => ''
+             ))),
+       'class' => 'a-btn icon a-media a-inject-actual-url a-js-choose-button')) ?>
+  <?php endif ?>
   <?php // This is the enhanced form ?>
   <?php include_partial('aEnhancedMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 
@@ -41,7 +57,9 @@
   <?php if (aMediaTools::isSelecting() || aMediaTools::userHasUploadPrivilege()): ?>
       <?php if (aMediaTools::isSelecting()): ?>
         <div class="a-media-selection">
-          <?php if ($multipleStyle): ?>
+          <?php if ($multipleStyle && $editMultiple): ?>
+            <?php include_component('aEnhancedMedia', 'editMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
+          <?php elseif ($multipleStyle): ?>
             <?php include_component('aMedia', 'selectMultiple', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>
           <?php else: ?>
             <?php include_component('aMedia', 'selectSingle', array('limitSizes' => $limitSizes, 'label' => (isset($label)?$label:null))) ?>

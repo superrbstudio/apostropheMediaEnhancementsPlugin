@@ -62,4 +62,14 @@ class BaseaEnhancedMediaComponents extends BaseaMediaComponents
     }
     $this->current .= "?" . http_build_query($params);
   }
+
+    /**
+   * DOCUMENT ME
+   * @param mixed $request
+   */
+  public function executeEditMultiple($request)
+  {
+    $this->items = aMediaTools::getSelectedItems();
+  }
+
 }
