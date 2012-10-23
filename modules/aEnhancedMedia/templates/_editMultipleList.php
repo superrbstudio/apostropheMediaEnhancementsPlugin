@@ -10,9 +10,6 @@
   <li id="<?php echo $domId ?>" class="a-media-selection-list-item">
     <ul class="a-ui a-controls a-over a-media-selection-controls">
       <li>
-        <?php echo a_js_button(a_('Drag'), array('icon', 'a-drag', 'lite', 'no-label', 'alt')) ?>
-      </li>
-      <li>
         <?php echo a_button(a_('Edit'), aUrl::addParams(url_for('a_media_edit'), array("slug" => $item->getSlug())), array('icon', 'a-edit', 'lite', 'no-label', 'alt')) ?>
       </li>
       <li>

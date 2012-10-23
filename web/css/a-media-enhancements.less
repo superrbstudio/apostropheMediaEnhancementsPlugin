@@ -515,3 +515,41 @@
   }
 }
 
+// Batch editing form
+.a-ui.a-media-edit-multiple-wrapper
+{
+  @box-sizing;
+  @a-media-box;
+  padding: 20px;
+  margin-bottom: 30px;
+  .a-media-selection-list-item
+  {
+    // can't reorder in this view
+    color: pointer;
+  }
+}
+
+.a-media-edit-multiple,
+.a-media-edit-multiple-wrapper #a-media-selection-wrapper
+{
+  @clearfix;
+  width: 100%;
+}
+
+.a-media-edit-multiple-wrapper #a-media-selection-list,
+.a-media-edit-multiple-form
+{
+  display: inline;
+  position: relative;
+  float: left;
+  vertical-align: top;
+}
+.a-media-edit-multiple-wrapper #a-media-selection-list
+{
+  width: 50%;
+}
+.a-ui .a-media-edit-multiple-form
+{
+  @box-sizing;
+  padding-left: 20px;
+}

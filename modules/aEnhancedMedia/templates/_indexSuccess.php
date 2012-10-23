@@ -31,6 +31,7 @@
 <?php end_slot() ?>
 
 <div class="a-media-library clearfix">
+
 <?php if ($batchEdit): ?>
     <?php echo link_to('<span class="icon"></span> Batch Edit',
       'aEnhancedMedia/select',
@@ -41,11 +42,12 @@
              array(
              "multiple" => true,
              "editMultiple" => true,
-             "label" => 'Select the images you would like to edit',
+             "label" => 'Select images you would like to edit',
              "after" => ''
              ))),
        'class' => 'a-btn icon a-media a-inject-actual-url a-js-choose-button')) ?>
   <?php endif ?>
+
   <?php // This is the enhanced form ?>
   <?php include_partial('aEnhancedMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
 
