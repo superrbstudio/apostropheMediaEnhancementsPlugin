@@ -21,7 +21,8 @@
         <?php // Always include this, it brings in some of the relevant JS too ?>
         <?php include_partial("aEnhancedMedia/editMultipleList", array("items" => $items)) ?>
       </ul>
-      <form class="a-form a-media-edit-multiple-form" id="a-media-edit-multiple-form">
+      <?php echo form_tag('aEnhancedMedia/batchEdit', array('name' => 'media_batch_edit_form', 'class' => 'a-form a-media-edit-multiple-form', 'id' => 'a-media-edit-multiple-form')) ?>
+      <!--<form class="a-form a-media-edit-multiple-form" id="a-media-edit-multiple-form">-->
         <div class="a-form-row description">
           <?php echo $form['description']->renderError() ?>
           <?php echo $form['description']->render() ?>
@@ -51,6 +52,16 @@
           <?php endif ?>
           <?php //a_js_call('aMultipleSelectAll(?)', $options) ?>
           <?php a_js_call('aMultipleSelect(?,?)', '#a-media-edit-multiple-form > .categories', $options) ?>
+        </div>
+      
+        <div class="a-form-row hidden">
+          <div class="a-form-field">
+            <?php echo $form['item_ids']->render() ?>
+          </div>
+        </div>
+      
+        <div class="a-form-row buttons">
+          <input type="submit" value="Save Images" class="a-btn" />
         </div>
       </form>
   </div>

@@ -14,7 +14,11 @@ class PluginaEnhancedMediaEditMultipleForm extends aMediaItemForm
     $this->setWidget('view_is_secure', new sfWidgetFormSelect(array('choices' => array('1' => 'Hidden', '' => 'Public'))));
     $this->setValidator('view_is_secure', new sfValidatorChoice(array('required' => false, 'choices' => array('1', ''))));
     $this->setWidget('description', new aWidgetFormRichTextarea(array('tool' => 'Media', 'height' => 182 ))); // FCK doesn't like to be smaller than 182px in Chrome
-
+    
+    // widget to hold the media ids
+    $this->setWidget('item_ids', new sfWidgetFormInputHidden());
+    $this->setValidator('item_ids', new sfValidatorPass());
+    
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
   }
 

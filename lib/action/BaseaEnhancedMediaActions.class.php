@@ -177,5 +177,14 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
     return $this->redirect("aMedia/index");
   }
 
+  public function executeBatchEdit(sfWebRequest $request)
+  {
+    $this->form = new aEnhancedMediaEditMultipleForm();
+    $this->form->bind($request->getParameter($this->form->getName()));
+    
+    var_dump($this->form->getValue('tags'));
+    var_dump($this->form->getValue('item_ids'));
+    exit;
+  }
 }
 

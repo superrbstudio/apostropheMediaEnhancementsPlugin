@@ -69,8 +69,8 @@ class BaseaEnhancedMediaComponents extends BaseaMediaComponents
    */
   public function executeEditMultiple($request)
   {
-    $this->batchForm = new aEnhancedMediaEditMultipleForm();
     $this->items = aMediaTools::getSelectedItems();
+    $this->batchForm = new aEnhancedMediaEditMultipleForm(null, array('items' => $this->items));
   }
 
 }
