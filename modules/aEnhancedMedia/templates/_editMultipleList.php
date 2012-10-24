@@ -25,8 +25,10 @@
   <?php a_js_call('apostrophe.setObjectId(?, ?)', $domId, $id) ?>
 <?php $n++; endforeach ?>
 
+<?php a_js_call('apostrophe.batchEditMedia()') ?>
+
 <?php a_js_call('apostrophe.mediaEnableSelect(?)', array(
-  // 'setCropUrl' => a_url('aMedia', 'crop'),
+  'setCropUrl' => a_url('aMedia', 'crop'),
   'removeUrl' => a_url('aMedia', 'multipleRemove'),
   'updateMultiplePreviewUrl' => a_url('aMedia', 'updateMultiplePreview'),
   'multipleAddUrl' => a_url('aMedia', 'multipleAdd'),

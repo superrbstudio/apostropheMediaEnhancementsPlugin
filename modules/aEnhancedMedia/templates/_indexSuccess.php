@@ -6,6 +6,7 @@
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
   $results = isset($results) ? $sf_data->getRaw('results') : null;
   $batchEdit = sfConfig::get('app_aMedia_batch_edit') ? sfConfig::get('app_aMedia_batch_edit') : false;
+  $pageNum = $pager ? $pager->getPage() : 1;
 ?>
 
 <?php use_helper('a') ?>
@@ -40,12 +41,14 @@
          http_build_query(
            array_merge(
              array(
+             "page" => $pageNum,
+             "pagerUrl" => $pagerUrl,
              "multiple" => true,
              "editMultiple" => true,
              "label" => 'Select images you would like to edit',
              "after" => ''
              ))),
-       'class' => 'a-btn icon a-media a-inject-actual-url a-js-choose-button')) ?>
+       'class' => 'a-ui a-btn icon a-media a-inject-actual-url a-js-choose-button')) ?>
   <?php endif ?>
 
   <?php // This is the enhanced form ?>

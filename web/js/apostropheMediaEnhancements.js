@@ -520,16 +520,51 @@ $(document).ready(function() {
             closeEmbed($target);
           });
 
-          function openEmbed(box) {
+          var openEmbed = function(box) {
             box.removeClass('embed-closed').addClass('embed-open');
-          }
+          };
 
-          function closeEmbed(box) {
+          var closeEmbed = function(box) {
             box.removeClass('embed-open').addClass('embed-closed');
-          }
+          };
 
         };
 
+        apostrophe.batchEditMedia = function() {
+          var selectionList  = $('#a-media-selection-list');
+          var batchForm         = $('#a-media-edit-multiple-form');
+
+          var initialize = function() {
+            var items = getSelectedItems();
+            createItemArray(items, function(data){
+              updateBatchFormValues(data);
+            });
+          };
+
+          var getSelectedItems = function() {
+            var items = selectionList.find('.a-media-selection-list-item');
+            return items;
+          };
+
+          var createItemArray = function(items, callback) {
+            var mediaSelection = [];
+            _.each(items, function(item) {
+              var itemId = $(item).data('id');
+              mediaSelection.push(itemId);
+            });
+            callback(mediaSelection);
+          };
+
+          var updateBatchFormValues = function(itemArray) {
+            var arrayInput = batchForm.find('input#a_media_item_item_ids');
+            arrayInput.val(itemArray);
+          };
+
+          selectionList.on('change.aMedia', function(event) {
+            initialize();
+          });
+
+          initialize();
+        };
     }
 });
-

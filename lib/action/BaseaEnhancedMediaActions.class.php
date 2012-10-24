@@ -145,6 +145,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
     $this->hasPermissionsForSelect();
 
     $after = $request->getParameter('after');
+    $page  = $request->getParameter('page');
     $editMultiple = !!$request->getParameter('editMultiple');
     // Prevent possible header insertion tricks
     $after = preg_replace("/\s+/", " ", $after);
@@ -174,7 +175,13 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
       aMediaTools::setAttribute('editMultiple', true);
     }
 
-    return $this->redirect("aMedia/index");
+    if ($page) {
+      return $this->redirect("aMedia/index?page=".$page);
+    }
+    else
+    {
+      return $this->redirect("aMedia/index");
+    }
   }
 
   public function executeBatchEdit(sfWebRequest $request)
