@@ -189,9 +189,53 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
     $this->form = new aEnhancedMediaEditMultipleForm();
     $this->form->bind($request->getParameter($this->form->getName()));
     
-    var_dump($this->form->getValue('tags'));
-    var_dump($this->form->getValue('item_ids'));
-    exit;
+    $description = $this->form->getValue('description');
+    $ids = explode(',' , $this->form->getValue('item_ids'));
+    $tags = $this->form->getValue('tags');
+    $categories = $this->form->getValue('categories_list');
+    
+//    var_dump($this->form->getValue('tags'));
+//    var_dump($this->form->getValue('item_ids'));
+//    var_dump($this->form->getValue('description'));
+//    var_dump($this->form->getValue('categories_list'));
+//    exit;
+    
+    if (count($ids))
+    {
+        // start transaction
+        
+        foreach ($ids as $id)
+        {
+          $media = Doctrine::getTable('aMediaItem')->findOneBy('id', $id);
+          
+          // description
+          if ($description)
+          {
+            $media->setDescription($description);
+            $media->setDescription(aHtml::simplify($media->getDescription(), "<p><br><b><i><strong><em><ul><li><ol><a>"));
+          }
+          
+          // tags
+          if ($tags)
+          {
+            $newtags = str_replace('/', '-', isset($tags) ? $tags : '');
+            $media->setTags($newtags);
+          }
+          
+          // categories
+          if ($categories)
+          {
+            
+          }
+          
+          // save
+          $media->save();
+        }
+        
+        // commit transaction
+    }
+    
+    return $this->redirect("aMedia/index");
   }
 }
 
