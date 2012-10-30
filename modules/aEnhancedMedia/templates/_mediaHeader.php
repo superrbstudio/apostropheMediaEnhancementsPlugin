@@ -1,6 +1,9 @@
 <?php use_helper('a') ?>
 <?php $page = aTools::getCurrentPage() ?>
 <?php $search = strlen(aMediaTools::getSearchParameter('search')) ?>
+<?php $batchEdit = sfConfig::get('app_aMedia_batch_edit') ? sfConfig::get('app_aMedia_batch_edit') : false; ?>
+<?php $pageNum = $pager ? $pager->getPage() : 1; ?>
+
 <?php if ($page->admin): ?>
 
   <div class="a-ui a-admin-header">
@@ -10,6 +13,24 @@
 
     <ul class="a-ui a-controls a-admin-controls a-media-service-controls a-align-right">
       <?php if ($page->admin): ?>
+          <li>
+            <?php if ($batchEdit): ?>
+                <?php echo link_to('<span class="icon"></span> Batch Edit',
+                  'aEnhancedMedia/select',
+                  array(
+                   'query_string' =>
+                     http_build_query(
+                       array_merge(
+                         array(
+                         "page" => $pageNum,
+                         "multiple" => true,
+                         "editMultiple" => true,
+                         "label" => 'Select images you would like to edit',
+                         "after" => ''
+                         ))),
+                   'class' => 'a-ui a-btn icon alt lite a-edit a-inject-actual-url a-js-choose-button')) ?>
+              <?php endif ?>
+          </li>
         <?php if (aMediaTools::getOption('linked_accounts') && aMediaTools::userHasAdminPrivilege()): ?>
           <li><a href="<?php echo a_url('aMedia', 'link') ?>" class="a-btn icon alt a-users lite a-media-link-accounts"><span class="icon"></span><?php echo a_('Manage Linked Accounts') ?></a></li>
         <?php endif ?>
@@ -17,6 +38,7 @@
           <li><a href="<?php echo a_url('aMedia', 'searchServices') ?>" class="a-btn icon alt lite a-search"><span class="icon"></span><?php echo a_('Search Services') ?></a></li>
         <?php endif ?>
       <?php endif ?>
+
     </ul>
   </div>
 

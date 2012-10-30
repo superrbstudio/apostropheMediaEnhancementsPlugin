@@ -5,8 +5,6 @@
   $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
   $pagerUrl = isset($pagerUrl) ? $sf_data->getRaw('pagerUrl') : null;
   $results = isset($results) ? $sf_data->getRaw('results') : null;
-  $batchEdit = sfConfig::get('app_aMedia_batch_edit') ? sfConfig::get('app_aMedia_batch_edit') : false;
-  $pageNum = $pager ? $pager->getPage() : 1;
 ?>
 
 <?php use_helper('a') ?>
@@ -24,32 +22,14 @@
 <?php slot('body_class', $body_class) ?>
 
 <?php slot('a-page-header') ?>
-  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed, 'pager' => $pager )) ?>
 <?php end_slot() ?>
 
 <?php slot('a-media-library-controls') ?>
-  <?php include_partial('aMedia/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl, 'max_per_page' => $max_per_page, 'enabled_layouts' => $enabled_layouts, 'layout' => $layout)) ?>
+  <?php include_partial('aEnhancedMedia/pager', array('pager' => $pager, 'pagerUrl' => $pagerUrl, 'max_per_page' => $max_per_page, 'enabled_layouts' => $enabled_layouts, 'layout' => $layout)) ?>
 <?php end_slot() ?>
 
 <div class="a-media-library clearfix">
-
-<?php if ($batchEdit): ?>
-    <?php echo link_to('<span class="icon"></span> Batch Edit',
-      'aEnhancedMedia/select',
-      array(
-       'query_string' =>
-         http_build_query(
-           array_merge(
-             array(
-             "page" => $pageNum,
-             "pagerUrl" => $pagerUrl,
-             "multiple" => true,
-             "editMultiple" => true,
-             "label" => 'Select images you would like to edit',
-             "after" => ''
-             ))),
-       'class' => 'a-ui a-btn icon a-media a-inject-actual-url a-js-choose-button')) ?>
-  <?php endif ?>
 
   <?php // This is the enhanced form ?>
   <?php include_partial('aEnhancedMedia/addForm', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>

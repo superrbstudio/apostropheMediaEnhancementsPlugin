@@ -22,7 +22,6 @@
         <?php include_partial("aEnhancedMedia/editMultipleList", array("items" => $items)) ?>
       </ul>
       <?php echo form_tag('aEnhancedMedia/batchEdit', array('name' => 'media_batch_edit_form', 'class' => 'a-form a-media-edit-multiple-form', 'id' => 'a-media-edit-multiple-form')) ?>
-      <!--<form class="a-form a-media-edit-multiple-form" id="a-media-edit-multiple-form">-->
         <div class="a-form-row description">
           <?php echo $form['description']->renderError() ?>
           <?php echo $form['description']->render() ?>
@@ -50,18 +49,18 @@
           <?php if (sfContext::getInstance()->getUser()->hasCredential(aMediaTools::getOption('admin_credential'))): ?>
             <?php $options['add'] = a_('+ New Category') ?>
           <?php endif ?>
-          <?php //a_js_call('aMultipleSelectAll(?)', $options) ?>
           <?php a_js_call('aMultipleSelect(?,?)', '#a-media-edit-multiple-form > .categories', $options) ?>
         </div>
-      
+
         <div class="a-form-row hidden">
           <div class="a-form-field">
             <?php echo $form['item_ids']->render() ?>
           </div>
         </div>
-      
+
         <div class="a-form-row buttons">
-          <input type="submit" value="Save Images" class="a-btn" />
+          <?php echo a_submit_button('Save Images') ?>
+          <?php echo a_js_cancel_button('Cancel') ?>
         </div>
       </form>
   </div>
