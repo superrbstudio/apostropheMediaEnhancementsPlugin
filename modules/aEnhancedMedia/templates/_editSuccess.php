@@ -2,6 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $form = isset($form) ? $sf_data->getRaw('form') : null;
   $item = isset($item) ? $sf_data->getRaw('item') : null;
+  $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
   $popularTags = isset($popularTags) ? $sf_data->getRaw('popularTags') : array();
   $allTags = isset($allTags) ? $sf_data->getRaw('allTags') : array();
 ?>
@@ -12,7 +13,7 @@
 <?php slot('body_class', $body_class) ?>
 
 <?php slot('a-page-header') ?>
-  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed, 'pager' => $pager )) ?>
 <?php end_slot() ?>
 
 <div class="a-media-library">

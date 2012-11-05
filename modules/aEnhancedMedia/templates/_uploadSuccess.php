@@ -8,7 +8,7 @@
 <div class="a-media-library">
 
 <?php slot('a-page-header') ?>
-  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed, 'pager' => $pager )) ?>
 <?php end_slot() ?>
 
 <div class="a-media-toolbar">

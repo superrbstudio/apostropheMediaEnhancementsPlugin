@@ -2,6 +2,7 @@
   // Compatible with sf_escaping_strategy: true
   $mediaItem = isset($mediaItem) ? $sf_data->getRaw('mediaItem') : null;
   $layout = isset($layout) ? $sf_data->getRaw('layout') : null;
+  $pager = isset($pager) ? $sf_data->getRaw('pager') : null;
 ?>
 <?php use_helper('a') ?>
 
@@ -16,7 +17,7 @@
 <?php $i = 1 ?>
 
 <?php slot('a-page-header') ?>
-  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed)) ?>
+  <?php include_partial('aEnhancedMedia/mediaHeader', array('uploadAllowed' => $uploadAllowed, 'embedAllowed' => $embedAllowed, 'pager' => $pager )) ?>
 <?php end_slot() ?>
 
 <div class="a-media-library">
