@@ -226,7 +226,11 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
         // categories
         if ($categories)
         {
-
+          foreach($categories as $c)
+          {
+            $category = Doctrine::getTable('aCategory')->findOneBy('id', $c);
+            $media->Categories[] = $category;
+          }
         }
 
         // save
