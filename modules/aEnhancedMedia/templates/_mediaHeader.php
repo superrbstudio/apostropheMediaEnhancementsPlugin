@@ -26,8 +26,11 @@
                          "multiple" => true,
                          "editMultiple" => true,
                          "label" => 'Select images you would like to edit',
-                         "after" => ''
-                         ))),
+                         "after" => a_url('aMedia', 'index') . "?" . 
+                                    http_build_query(
+                                      array(
+                                        "page" => $pageNum, 
+                                        ))))),
                    'class' => 'a-ui a-btn icon alt lite a-edit a-inject-actual-url a-js-choose-button')) ?>
               <?php endif ?>
           </li>

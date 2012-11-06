@@ -60,8 +60,8 @@
 
         <div class="a-form-row buttons">
           <?php echo a_submit_button('Save Images') ?>
-          <?php echo a_js_cancel_button('Cancel') ?>
         </div>
       </form>
   </div>
+  <?php echo a_button(a_('Cancel'), url_for("aMedia/selectCancel"), array(), 'a-save-media-selection') ?>
 </div>
