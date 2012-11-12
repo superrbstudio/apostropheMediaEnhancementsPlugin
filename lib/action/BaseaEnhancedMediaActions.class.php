@@ -23,6 +23,7 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
 
     if ($request->getMethod() == "POST")
     {
+
       $files = aEnhancedMediaTools::getInstance()->handleHtml5Upload($request);
 
       $mediaTable = Doctrine::getTable('aMediaItem');
@@ -182,6 +183,78 @@ class BaseaEnhancedMediaActions extends BaseaMediaActions
     {
       return $this->redirect("aMedia/index");
     }
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   */
+  public function executeBatchEditRemove(sfWebRequest $request)
+  {
+    $this->hasPermissionsForSelect();
+
+    $id = $request->getParameter('id');
+    $item = Doctrine::getTable("aMediaItem")->find($id);
+    $this->forward404Unless($item);
+    $selection = aMediaTools::getSelection();
+    $index = array_search($id, $selection);
+    if ($index !== false)
+    {
+      array_splice($selection, $index, 1);
+    }
+    aMediaTools::setSelection($selection);
+    return $this->renderTemplate();
+  }
+
+  /**
+   * DOCUMENT ME
+   * @param sfWebRequest $request
+   * @return mixed
+   */
+  public function executeBatchEditAdd(sfWebRequest $request)
+  {
+    $this->hasPermissionsForSelect();
+
+    $id = $request->getParameter('id') + 0;
+    $item = Doctrine::getTable("aMediaItem")->find($id);
+    $this->forward404Unless($item);
+    $selection = aMediaTools::getSelection();
+    if (!aMediaTools::isMultiple())
+    {
+      $selection = array($id);
+    } else
+    {
+      $index = array_search($id, $selection);
+      // One occurrence each. If this changes we'll have to rethink
+      // the way reordering and deletion work (probably go by index).
+      if ($index === false)
+      {
+        $selection[] = $id;
+      }
+    }
+    aMediaTools::setSelection($selection);
+    if (aMediaTools::getAttribute('type') == 'image')
+    {
+      $imageInfo = aMediaTools::getAttribute('imageInfo');
+      // Make no attempt to scrub out a previous crop, which could be handy
+      $imageInfo[$id]['width'] = $item->getWidth();
+      $imageInfo[$id]['height'] = $item->getHeight();
+      aMediaTools::setAttribute('imageInfo', $imageInfo);
+      if ($item->getCroppable())
+      {
+        // If no previous crop info is set, we must set an intial cropping mask
+        // so that the cropped media item id gets linked instead of the original
+        // media item. This is a little dangerous because JavaScript computes an
+        // intial crop mask on the client side.
+        aMediaTools::setDefaultCropDimensions($item);
+      }
+    }
+    if ((!aMediaTools::isMultiple()))
+    {
+      return $this->redirect('aMedia/selected');
+    }
+
+    return $this->renderTemplate();
   }
 
   public function executeBatchEdit(sfWebRequest $request)

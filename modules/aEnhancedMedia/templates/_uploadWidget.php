@@ -24,7 +24,7 @@
       <div class="a-form-controls ">
         <hr class="a-hr" />
         <div class="a-form-submit">
-          <input class="a-btn big a-submit" type="submit" value="I'm done!" />
+          <a href="" class="a-btn big a-submit" >I'm Done</a>
         </div>
       </div>
   </form>
